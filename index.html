@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,6 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
     body{background:#f8fafc;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:#1e293b}
@@ -29,498 +29,1573 @@
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-presets="react">
+<script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useCallback = _React.useCallback;
+var _Recharts = Recharts,
+  ComposedChart = _Recharts.ComposedChart,
+  Line = _Recharts.Line,
+  Area = _Recharts.Area,
+  XAxis = _Recharts.XAxis,
+  YAxis = _Recharts.YAxis,
+  CartesianGrid = _Recharts.CartesianGrid,
+  Tooltip = _Recharts.Tooltip,
+  ResponsiveContainer = _Recharts.ResponsiveContainer;
 
-const {useState,useEffect,useCallback} = React;
-const {ComposedChart,Line,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} = Recharts;
-
-const DEFAULT_LOC = {lat:51.5327,lon:-1.0435,name:'Cane End, Reading'};
-const MODELS = [
-  {id:'best_match',    label:'AUTO'},
-  {id:'ecmwf_ifs025',  label:'ECMWF'},
-  {id:'uk_met_office', label:'MET OFFICE'},
-  {id:'gfs_seamless',  label:'GFS'},
-];
-const SOURCE_LABELS = {best_match:'Auto',ecmwf_ifs025:'ECMWF',uk_met_office:'Met Office',gfs_seamless:'NOAA GFS'};
-const WMO = {
-  0:['Clear Sky','☀️'],1:['Mainly Clear','🌤️'],2:['Partly Cloudy','⛅'],3:['Overcast','☁️'],
-  45:['Fog','🌫️'],48:['Freezing Fog','🌫️'],
-  51:['Light Drizzle','🌦️'],53:['Drizzle','🌦️'],55:['Heavy Drizzle','🌧️'],
-  61:['Light Rain','🌧️'],63:['Rain','🌧️'],65:['Heavy Rain','🌧️'],
-  71:['Light Snow','🌨️'],73:['Snow','❄️'],75:['Heavy Snow','❄️'],
-  80:['Light Showers','🌦️'],81:['Showers','🌧️'],82:['Heavy Showers','⛈️'],
-  95:['Thunderstorm','⛈️'],96:['Storm+Hail','⛈️'],99:['Severe Storm','⛈️'],
+// ── Config ────────────────────────────────────────────────────────────────────
+var DEFAULT_LOC = {
+  lat: 51.5327,
+  lon: -1.0435,
+  name: 'Cane End, Reading'
 };
-const wmo = c => {const w=WMO[c];return w?{desc:w[0],icon:w[1]}:{desc:'Unknown',icon:'🌡️'}};
-const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-const wdir = d => d!=null?DIRS[Math.round(d/22.5)%16]:'—';
-const fmtTime = iso => new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-const fmtDay  = iso => new Date(iso).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
-const fmtChart= iso => {
-  const d=new Date(iso);
-  return d.getHours()===0
-    ? d.toLocaleDateString('en-GB',{weekday:'short'})
-    : d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+var MODELS = [{
+  id: 'best_match',
+  label: 'AUTO'
+}, {
+  id: 'ecmwf_ifs025',
+  label: 'ECMWF'
+}, {
+  id: 'uk_met_office',
+  label: 'MET OFFICE'
+}, {
+  id: 'gfs_seamless',
+  label: 'GFS'
+}];
+var SOURCE_LABELS = {
+  best_match: 'Auto',
+  ecmwf_ifs025: 'ECMWF',
+  uk_met_office: 'Met Office',
+  gfs_seamless: 'NOAA GFS'
 };
-const rv = (v,d=0) => v!=null?Number(v).toFixed(d):'—';
-const METRICS = [
-  {id:'temp', label:'TEMP',color:'#2563eb',unit:'°C',   key:'temp'},
-  {id:'rain', label:'RAIN',color:'#0ea5e9',unit:'%',    key:'precipProb'},
-  {id:'wind', label:'WIND',color:'#10b981',unit:' km/h',key:'wind'},
-];
-const STAR_LABELS = {1:'Way off',2:'Somewhat off',3:'Roughly right',4:'Pretty accurate',5:'Spot on'};
-
-const SK = 'whq_feedback_v1';
-const loadFB = () => {try{const d=localStorage.getItem(SK);return d?JSON.parse(d):{ratings:[]}}catch{return {ratings:[]}}};
-const saveFB  = d => {try{localStorage.setItem(SK,JSON.stringify(d))}catch{}};
-
-const computeScores = ratings => {
-  const m={};
-  ratings.forEach((r,i)=>{
-    const w=Math.pow(0.85,ratings.length-1-i);
-    if(!m[r.src])m[r.src]={ws:0,wt:0,n:0,last:null};
-    m[r.src].ws+=r.score*w;m[r.src].wt+=w;m[r.src].n++;m[r.src].last=r.date;
+var WMO = {
+  0: ['Clear Sky', '☀️'],
+  1: ['Mainly Clear', '🌤️'],
+  2: ['Partly Cloudy', '⛅'],
+  3: ['Overcast', '☁️'],
+  45: ['Fog', '🌫️'],
+  48: ['Freezing Fog', '🌫️'],
+  51: ['Light Drizzle', '🌦️'],
+  53: ['Drizzle', '🌦️'],
+  55: ['Heavy Drizzle', '🌧️'],
+  61: ['Light Rain', '🌧️'],
+  63: ['Rain', '🌧️'],
+  65: ['Heavy Rain', '🌧️'],
+  71: ['Light Snow', '🌨️'],
+  73: ['Snow', '❄️'],
+  75: ['Heavy Snow', '❄️'],
+  80: ['Light Showers', '🌦️'],
+  81: ['Showers', '🌧️'],
+  82: ['Heavy Showers', '⛈️'],
+  95: ['Thunderstorm', '⛈️'],
+  96: ['Storm+Hail', '⛈️'],
+  99: ['Severe Storm', '⛈️']
+};
+var wmo = function wmo(c) {
+  var w = WMO[c];
+  return w ? {
+    desc: w[0],
+    icon: w[1]
+  } : {
+    desc: 'Unknown',
+    icon: '🌡️'
+  };
+};
+var DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+var wdir = function wdir(d) {
+  return d != null ? DIRS[Math.round(d / 22.5) % 16] : '—';
+};
+var fmtTime = function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit'
   });
-  return Object.entries(m).map(([src,s])=>({
-    src,label:SOURCE_LABELS[src]??src,avg:s.wt>0?s.ws/s.wt:0,count:s.n,last:s.last,
-  })).sort((a,b)=>b.avg-a.avg);
+};
+var fmtDay = function fmtDay(iso) {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short'
+  });
+};
+var fmtChart = function fmtChart(iso) {
+  var d = new Date(iso);
+  return d.getHours() === 0 ? d.toLocaleDateString('en-GB', {
+    weekday: 'short'
+  }) : d.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
+var rv = function rv(v) {
+  var d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return v != null ? Number(v).toFixed(d) : '—';
+};
+var METRICS = [{
+  id: 'temp',
+  label: 'TEMP',
+  color: '#2563eb',
+  unit: '°C',
+  key: 'temp'
+}, {
+  id: 'rain',
+  label: 'RAIN',
+  color: '#0ea5e9',
+  unit: '%',
+  key: 'precipProb'
+}, {
+  id: 'wind',
+  label: 'WIND',
+  color: '#10b981',
+  unit: ' km/h',
+  key: 'wind'
+}];
+var STAR_LABELS = {
+  1: 'Way off',
+  2: 'Somewhat off',
+  3: 'Roughly right',
+  4: 'Pretty accurate',
+  5: 'Spot on'
 };
 
-async function fetchWeather(lat,lon,model){
-  const p=new URLSearchParams({
-    latitude:lat,longitude:lon,models:model,
-    current:'temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weathercode,cloudcover,windspeed_10m,winddirection_10m,windgusts_10m',
-    hourly:'temperature_2m,apparent_temperature,precipitation_probability,precipitation,weathercode,windspeed_10m,cloudcover',
-    daily:'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max,sunrise,sunset',
-    timezone:'Europe/London',forecast_days:3,
+// ── Storage (localStorage — works in real browsers) ───────────────────────────
+var SK = 'whq_feedback_v1';
+var loadFB = function loadFB() {
+  try {
+    var d = localStorage.getItem(SK);
+    return d ? JSON.parse(d) : {
+      ratings: []
+    };
+  } catch (_unused) {
+    return {
+      ratings: []
+    };
+  }
+};
+var saveFB = function saveFB(d) {
+  try {
+    localStorage.setItem(SK, JSON.stringify(d));
+  } catch (_unused2) {}
+};
+
+// ── Learning ──────────────────────────────────────────────────────────────────
+var computeScores = function computeScores(ratings) {
+  var m = {};
+  ratings.forEach(function (r, i) {
+    var w = Math.pow(0.85, ratings.length - 1 - i);
+    if (!m[r.src]) m[r.src] = {
+      ws: 0,
+      wt: 0,
+      n: 0,
+      last: null
+    };
+    m[r.src].ws += r.score * w;
+    m[r.src].wt += w;
+    m[r.src].n++;
+    m[r.src].last = r.date;
   });
-  const r=await fetch(`/api/weather?${p}`);
-  if(!r.ok)throw new Error(`API error ${r.status}`);
-  const d=await r.json();
-  if(d.error)throw new Error(d.error);
-  return d;
+  return Object.entries(m).map(function (_ref) {
+    var _SOURCE_LABELS$src;
+    var _ref2 = _slicedToArray(_ref, 2),
+      src = _ref2[0],
+      s = _ref2[1];
+    return {
+      src: src,
+      label: (_SOURCE_LABELS$src = SOURCE_LABELS[src]) !== null && _SOURCE_LABELS$src !== void 0 ? _SOURCE_LABELS$src : src,
+      avg: s.wt > 0 ? s.ws / s.wt : 0,
+      count: s.n,
+      last: s.last
+    };
+  }).sort(function (a, b) {
+    return b.avg - a.avg;
+  });
+};
+
+// ── API (same-origin calls — no CORS needed) ──────────────────────────────────
+function fetchWeather(_x, _x2, _x3) {
+  return _fetchWeather.apply(this, arguments);
 }
-async function geoSearch(q){
-  const r=await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
-  const d=await r.json();
-  return d.results??[];
+function _fetchWeather() {
+  _fetchWeather = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(lat, lon, model) {
+    var p, r, d;
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.n) {
+        case 0:
+          p = new URLSearchParams({
+            latitude: lat,
+            longitude: lon,
+            models: model,
+            current: 'temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weathercode,cloudcover,windspeed_10m,winddirection_10m,windgusts_10m',
+            hourly: 'temperature_2m,apparent_temperature,precipitation_probability,precipitation,weathercode,windspeed_10m,cloudcover',
+            daily: 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max,sunrise,sunset',
+            timezone: 'Europe/London',
+            forecast_days: 3
+          });
+          _context2.n = 1;
+          return fetch("/api/weather?".concat(p));
+        case 1:
+          r = _context2.v;
+          if (r.ok) {
+            _context2.n = 2;
+            break;
+          }
+          throw new Error("API error ".concat(r.status));
+        case 2:
+          _context2.n = 3;
+          return r.json();
+        case 3:
+          d = _context2.v;
+          if (!d.error) {
+            _context2.n = 4;
+            break;
+          }
+          throw new Error(d.error);
+        case 4:
+          return _context2.a(2, d);
+      }
+    }, _callee2);
+  }));
+  return _fetchWeather.apply(this, arguments);
 }
-function transformWeather(raw,name,model){
-  const c=raw.current;
+function geoSearch(_x4) {
+  return _geoSearch.apply(this, arguments);
+}
+function _geoSearch() {
+  _geoSearch = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(q) {
+    var _d$results;
+    var r, d;
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.n) {
+        case 0:
+          _context3.n = 1;
+          return fetch("/api/geocode?q=".concat(encodeURIComponent(q)));
+        case 1:
+          r = _context3.v;
+          _context3.n = 2;
+          return r.json();
+        case 2:
+          d = _context3.v;
+          return _context3.a(2, (_d$results = d.results) !== null && _d$results !== void 0 ? _d$results : []);
+      }
+    }, _callee3);
+  }));
+  return _geoSearch.apply(this, arguments);
+}
+function transformWeather(raw, name, model) {
+  var _SOURCE_LABELS$model, _c$precipitation;
+  var c = raw.current;
   return {
-    location:name,source:model,sourceLabel:SOURCE_LABELS[model]??model,
-    current:{
-      temp:c.temperature_2m,feelsLike:c.apparent_temperature,...wmo(c.weathercode),
-      humidity:c.relative_humidity_2m,wind:c.windspeed_10m,windDir:wdir(c.winddirection_10m),
-      gusts:c.windgusts_10m,cloud:c.cloudcover,precip:c.precipitation??0,
-    },
-    daily:raw.daily.time.slice(0,3).map((d,i)=>({
-      label:i===0?'Today':i===1?'Tomorrow':new Date(d).toLocaleDateString('en-GB',{weekday:'long'}),
-      date:fmtDay(d),...wmo(raw.daily.weathercode[i]),
-      high:raw.daily.temperature_2m_max[i],low:raw.daily.temperature_2m_min[i],
-      precipProb:raw.daily.precipitation_probability_max[i]??0,precipMm:raw.daily.precipitation_sum[i]??0,
-      windMax:raw.daily.windspeed_10m_max[i],sunrise:fmtTime(raw.daily.sunrise[i]),sunset:fmtTime(raw.daily.sunset[i]),
-    })),
-    hourly:raw.hourly.time.slice(0,72).map((t,i)=>({t,i})).filter(({i})=>i%3===0).map(({t,i})=>({
-      time:fmtChart(t),...wmo(raw.hourly.weathercode[i]),
-      temp:raw.hourly.temperature_2m[i],
-      precipProb:raw.hourly.precipitation_probability[i]??0,
-      wind:raw.hourly.windspeed_10m[i],
-    })),
+    location: name,
+    source: model,
+    sourceLabel: (_SOURCE_LABELS$model = SOURCE_LABELS[model]) !== null && _SOURCE_LABELS$model !== void 0 ? _SOURCE_LABELS$model : model,
+    current: _objectSpread(_objectSpread({
+      temp: c.temperature_2m,
+      feelsLike: c.apparent_temperature
+    }, wmo(c.weathercode)), {}, {
+      humidity: c.relative_humidity_2m,
+      wind: c.windspeed_10m,
+      windDir: wdir(c.winddirection_10m),
+      gusts: c.windgusts_10m,
+      cloud: c.cloudcover,
+      precip: (_c$precipitation = c.precipitation) !== null && _c$precipitation !== void 0 ? _c$precipitation : 0
+    }),
+    daily: raw.daily.time.slice(0, 3).map(function (d, i) {
+      var _raw$daily$precipitat, _raw$daily$precipitat2;
+      return _objectSpread(_objectSpread({
+        label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : new Date(d).toLocaleDateString('en-GB', {
+          weekday: 'long'
+        }),
+        date: fmtDay(d)
+      }, wmo(raw.daily.weathercode[i])), {}, {
+        high: raw.daily.temperature_2m_max[i],
+        low: raw.daily.temperature_2m_min[i],
+        precipProb: (_raw$daily$precipitat = raw.daily.precipitation_probability_max[i]) !== null && _raw$daily$precipitat !== void 0 ? _raw$daily$precipitat : 0,
+        precipMm: (_raw$daily$precipitat2 = raw.daily.precipitation_sum[i]) !== null && _raw$daily$precipitat2 !== void 0 ? _raw$daily$precipitat2 : 0,
+        windMax: raw.daily.windspeed_10m_max[i],
+        sunrise: fmtTime(raw.daily.sunrise[i]),
+        sunset: fmtTime(raw.daily.sunset[i])
+      });
+    }),
+    hourly: raw.hourly.time.slice(0, 72).map(function (t, i) {
+      return {
+        t: t,
+        i: i
+      };
+    }).filter(function (_ref3) {
+      var i = _ref3.i;
+      return i % 3 === 0;
+    }).map(function (_ref4) {
+      var _raw$hourly$precipita;
+      var t = _ref4.t,
+        i = _ref4.i;
+      return _objectSpread(_objectSpread({
+        time: fmtChart(t)
+      }, wmo(raw.hourly.weathercode[i])), {}, {
+        temp: raw.hourly.temperature_2m[i],
+        precipProb: (_raw$hourly$precipita = raw.hourly.precipitation_probability[i]) !== null && _raw$hourly$precipita !== void 0 ? _raw$hourly$precipita : 0,
+        wind: raw.hourly.windspeed_10m[i]
+      });
+    })
   };
 }
 
-const CS = {
-  card:{background:'#fff',border:'1px solid #e2e8f0',borderRadius:16,boxShadow:'0 1px 4px rgba(0,0,0,0.05)'},
-  stat:{background:'#f1f5f9',border:'1px solid #e2e8f0',borderRadius:12,padding:12},
-  mono:{fontFamily:'monospace'},
-  lbl:{fontFamily:'monospace',fontSize:11,textTransform:'uppercase',letterSpacing:'0.1em',color:'#94a3b8'},
-  btn:{background:'#fff',border:'1px solid #e2e8f0',borderRadius:8,padding:'7px 12px',
-       fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.08em',color:'#475569'},
-  tag:(bg,col)=>({background:bg,color:col,fontSize:11,fontFamily:'monospace',padding:'2px 8px',borderRadius:999,letterSpacing:'0.06em',display:'inline-block'}),
+// ── Style helpers ─────────────────────────────────────────────────────────────
+var CS = {
+  card: {
+    background: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: 16,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
+  },
+  stat: {
+    background: '#f1f5f9',
+    border: '1px solid #e2e8f0',
+    borderRadius: 12,
+    padding: 12
+  },
+  mono: {
+    fontFamily: 'monospace'
+  },
+  lbl: {
+    fontFamily: 'monospace',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: '0.1em',
+    color: '#94a3b8'
+  },
+  btn: {
+    background: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: 8,
+    padding: '7px 12px',
+    fontSize: 11,
+    fontFamily: 'monospace',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    color: '#475569'
+  },
+  tag: function tag(bg, col) {
+    return {
+      background: bg,
+      color: col,
+      fontSize: 11,
+      fontFamily: 'monospace',
+      padding: '2px 8px',
+      borderRadius: 999,
+      letterSpacing: '0.06em',
+      display: 'inline-block'
+    };
+  }
 };
 
-function Stat({label,value,unit,sub}){
-  return <div style={CS.stat}>
-    <p style={{...CS.lbl,marginBottom:4}}>{label}</p>
-    <p style={{...CS.mono,fontWeight:600,fontSize:14,color:'#1e293b'}}>
-      {value??'—'}<span style={{fontSize:11,marginLeft:4,color:'#94a3b8'}}>{unit}</span>
-    </p>
-    {sub&&<p style={{...CS.mono,fontSize:11,marginTop:2,color:'#94a3b8'}}>{sub}</p>}
-  </div>;
+// ── Sub-components ────────────────────────────────────────────────────────────
+function Stat(_ref5) {
+  var label = _ref5.label,
+    value = _ref5.value,
+    unit = _ref5.unit,
+    sub = _ref5.sub;
+  return /*#__PURE__*/React.createElement("div", {
+    style: CS.stat
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.lbl), {}, {
+      marginBottom: 4
+    })
+  }, label), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontWeight: 600,
+      fontSize: 14,
+      color: '#1e293b'
+    })
+  }, value !== null && value !== void 0 ? value : '—', /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      marginLeft: 4,
+      color: '#94a3b8'
+    }
+  }, unit)), sub && /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      marginTop: 2,
+      color: '#94a3b8'
+    })
+  }, sub));
+}
+function DayCard(_ref6) {
+  var _d$precipProb;
+  var d = _ref6.d,
+    today = _ref6.today;
+  var bg = today ? '#1e3a8a' : '#fff',
+    bc = today ? '#1e40af' : '#e2e8f0',
+    mc = today ? '#93c5fd' : '#94a3b8';
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: bg,
+      border: "1px solid ".concat(bc),
+      borderRadius: 12,
+      padding: 14,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.lbl), {}, {
+      color: mc
+    })
+  }, d.label), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: today ? '#bfdbfe' : '#cbd5e1'
+    })
+  }, d.date), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 32,
+      marginTop: 2
+    }
+  }, d.icon), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 13,
+      fontWeight: 500,
+      color: today ? '#e0f2fe' : '#475569'
+    }
+  }, d.desc), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontWeight: 700,
+      fontSize: 18,
+      color: today ? '#fff' : '#1e293b'
+    })
+  }, rv(d.high), "\xB0"), /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 13,
+      color: mc
+    })
+  }, rv(d.low), "\xB0")), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: mc,
+      lineHeight: 1.6
+    })
+  }, /*#__PURE__*/React.createElement("div", null, "\uD83D\uDCA7 ", (_d$precipProb = d.precipProb) !== null && _d$precipProb !== void 0 ? _d$precipProb : 0, "% \xB7 ", rv(d.precipMm, 1), "mm"), /*#__PURE__*/React.createElement("div", null, "\uD83D\uDCA8 ", rv(d.windMax), " km/h"), d.sunrise && /*#__PURE__*/React.createElement("div", null, "\u2600\uFE0F ", d.sunrise, " \xB7 \uD83C\uDF05 ", d.sunset)));
+}
+function HourCard(_ref7) {
+  var _h$precipProb;
+  var h = _ref7.h;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      flexShrink: 0,
+      width: 70,
+      background: '#fff',
+      border: '1px solid #e2e8f0',
+      borderRadius: 12,
+      padding: 10,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 3
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 10,
+      color: '#94a3b8'
+    })
+  }, h.time), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 22
+    }
+  }, h.icon), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontWeight: 600,
+      fontSize: 13,
+      color: '#1e293b'
+    })
+  }, rv(h.temp), "\xB0"), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#2563eb'
+    })
+  }, (_h$precipProb = h.precipProb) !== null && _h$precipProb !== void 0 ? _h$precipProb : 0, "%"), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8'
+    })
+  }, rv(h.wind)));
+}
+function ChartTip(_ref8) {
+  var active = _ref8.active,
+    payload = _ref8.payload,
+    label = _ref8.label;
+  if (!active || !(payload !== null && payload !== void 0 && payload.length)) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#fff',
+      border: '1px solid #e2e8f0',
+      borderRadius: 8,
+      padding: 10,
+      fontSize: 11,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      color: '#94a3b8',
+      marginBottom: 4
+    })
+  }, label), payload.map(function (p, i) {
+    var _p$unit;
+    return /*#__PURE__*/React.createElement("p", {
+      key: i,
+      style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+        fontWeight: 600,
+        color: p.color
+      })
+    }, p.name, ": ", typeof p.value === 'number' ? p.value.toFixed(1) : p.value, (_p$unit = p.unit) !== null && _p$unit !== void 0 ? _p$unit : '');
+  }));
+}
+function StarRating(_ref9) {
+  var value = _ref9.value,
+    onChange = _ref9.onChange,
+    disabled = _ref9.disabled;
+  var _useState = useState(0),
+    _useState2 = _slicedToArray(_useState, 2),
+    hov = _useState2[0],
+    setHov = _useState2[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 4
+    }
+  }, [1, 2, 3, 4, 5].map(function (n) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: n,
+      disabled: disabled,
+      onClick: function onClick() {
+        return onChange(n);
+      },
+      onMouseEnter: function onMouseEnter() {
+        return !disabled && setHov(n);
+      },
+      onMouseLeave: function onMouseLeave() {
+        return setHov(0);
+      },
+      style: {
+        fontSize: 26,
+        lineHeight: 1,
+        border: 'none',
+        background: 'none',
+        padding: 0,
+        cursor: disabled ? 'default' : 'pointer',
+        opacity: disabled ? 0.4 : 1,
+        filter: (hov ? n <= hov : n <= (value !== null && value !== void 0 ? value : 0)) ? 'none' : 'grayscale(1) opacity(0.25)',
+        transition: 'filter .1s'
+      }
+    }, "\u2B50");
+  }), (hov || value) && /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({
+      marginLeft: 8
+    }, CS.mono), {}, {
+      fontSize: 12,
+      color: '#64748b'
+    })
+  }, STAR_LABELS[hov || value]));
+}
+function ScoreBar(_ref0) {
+  var avg = _ref0.avg,
+    count = _ref0.count,
+    isBest = _ref0.isBest;
+  var col = avg >= 4 ? '#22c55e' : avg >= 3 ? '#f59e0b' : '#ef4444';
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      height: 8,
+      background: '#f1f5f9',
+      borderRadius: 999
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 8,
+      background: col,
+      borderRadius: 999,
+      width: "".concat((avg / 5 * 100).toFixed(0), "%"),
+      transition: 'width .5s'
+    }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      width: 28,
+      textAlign: 'right',
+      color: '#475569'
+    })
+  }, avg.toFixed(1)), /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      width: 54,
+      color: '#94a3b8'
+    })
+  }, count, " rating", count !== 1 ? 's' : ''), isBest && count >= 3 && /*#__PURE__*/React.createElement("span", {
+    style: CS.tag('#dcfce7', '#15803d')
+  }, "BEST"));
 }
 
-function DayCard({d,today}){
-  const bg=today?'#1e3a8a':'#fff',bc=today?'#1e40af':'#e2e8f0',mc=today?'#93c5fd':'#94a3b8';
-  return <div style={{background:bg,border:`1px solid ${bc}`,borderRadius:12,padding:14,display:'flex',flexDirection:'column',gap:6}}>
-    <p style={{...CS.lbl,color:mc}}>{d.label}</p>
-    <p style={{...CS.mono,fontSize:11,color:today?'#bfdbfe':'#cbd5e1'}}>{d.date}</p>
-    <div style={{fontSize:32,marginTop:2}}>{d.icon}</div>
-    <p style={{fontSize:13,fontWeight:500,color:today?'#e0f2fe':'#475569'}}>{d.desc}</p>
-    <div style={{display:'flex',alignItems:'baseline',gap:6}}>
-      <span style={{...CS.mono,fontWeight:700,fontSize:18,color:today?'#fff':'#1e293b'}}>{rv(d.high)}°</span>
-      <span style={{...CS.mono,fontSize:13,color:mc}}>{rv(d.low)}°</span>
-    </div>
-    <div style={{...CS.mono,fontSize:11,color:mc,lineHeight:1.6}}>
-      <div>💧 {d.precipProb??0}% · {rv(d.precipMm,1)}mm</div>
-      <div>💨 {rv(d.windMax)} km/h</div>
-      {d.sunrise&&<div>☀️ {d.sunrise} · 🌅 {d.sunset}</div>}
-    </div>
-  </div>;
-}
-
-function HourCard({h}){
-  return <div style={{flexShrink:0,width:70,background:'#fff',border:'1px solid #e2e8f0',borderRadius:12,padding:10,display:'flex',flexDirection:'column',alignItems:'center',gap:3}}>
-    <p style={{...CS.mono,fontSize:10,color:'#94a3b8'}}>{h.time}</p>
-    <p style={{fontSize:22}}>{h.icon}</p>
-    <p style={{...CS.mono,fontWeight:600,fontSize:13,color:'#1e293b'}}>{rv(h.temp)}°</p>
-    <p style={{...CS.mono,fontSize:11,color:'#2563eb'}}>{h.precipProb??0}%</p>
-    <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>{rv(h.wind)}</p>
-  </div>;
-}
-
-function ChartTip({active,payload,label}){
-  if(!active||!payload?.length)return null;
-  return <div style={{background:'#fff',border:'1px solid #e2e8f0',borderRadius:8,padding:10,fontSize:11,boxShadow:'0 2px 8px rgba(0,0,0,0.08)'}}>
-    <p style={{...CS.mono,color:'#94a3b8',marginBottom:4}}>{label}</p>
-    {payload.map((p,i)=><p key={i} style={{...CS.mono,fontWeight:600,color:p.color}}>
-      {p.name}: {typeof p.value==='number'?p.value.toFixed(1):p.value}{p.unit??''}
-    </p>)}
-  </div>;
-}
-
-function StarRating({value,onChange,disabled}){
-  const [hov,setHov]=useState(0);
-  return <div style={{display:'flex',alignItems:'center',gap:4}}>
-    {[1,2,3,4,5].map(n=><button key={n} disabled={disabled}
-      onClick={()=>onChange(n)} onMouseEnter={()=>!disabled&&setHov(n)} onMouseLeave={()=>setHov(0)}
-      style={{fontSize:26,lineHeight:1,border:'none',background:'none',padding:0,cursor:disabled?'default':'pointer',opacity:disabled?0.4:1,
-        filter:(hov?n<=hov:n<=(value??0))?'none':'grayscale(1) opacity(0.25)',transition:'filter .1s'}}>⭐</button>)}
-    {(hov||value)&&<span style={{marginLeft:8,...CS.mono,fontSize:12,color:'#64748b'}}>{STAR_LABELS[hov||value]}</span>}
-  </div>;
-}
-
-function ScoreBar({avg,count,isBest}){
-  const col=avg>=4?'#22c55e':avg>=3?'#f59e0b':'#ef4444';
-  return <div style={{display:'flex',alignItems:'center',gap:10}}>
-    <div style={{flex:1,height:8,background:'#f1f5f9',borderRadius:999}}>
-      <div style={{height:8,background:col,borderRadius:999,width:`${((avg/5)*100).toFixed(0)}%`,transition:'width .5s'}}/>
-    </div>
-    <span style={{...CS.mono,fontSize:11,width:28,textAlign:'right',color:'#475569'}}>{avg.toFixed(1)}</span>
-    <span style={{...CS.mono,fontSize:11,width:54,color:'#94a3b8'}}>{count} rating{count!==1?'s':''}</span>
-    {isBest&&count>=3&&<span style={CS.tag('#dcfce7','#15803d')}>BEST</span>}
-  </div>;
-}
-
-function WeatherDash(){
-  const [loc,setLoc]           = useState(DEFAULT_LOC);
-  const [model,setModel]       = useState('best_match');
-  const [weather,setWeather]   = useState(null);
-  const [loading,setLoading]   = useState(false);
-  const [error,setError]       = useState(null);
-  const [lastFetch,setLF]      = useState(null);
-  const [metric,setMetric]     = useState('temp');
-  const [showSearch,setSS]     = useState(false);
-  const [searchQ,setSearchQ]   = useState('');
-  const [geoRes,setGeoRes]     = useState([]);
-  const [geoLoad,setGL]        = useState(false);
-  const [feedback,setFeedback] = useState(()=>loadFB());
-  const [ratingFor,setRF]      = useState(null);
-  const [justRated,setJR]      = useState(false);
-  const [pendingScore,setPS]   = useState(null);
-  const [showHist,setSH]       = useState(false);
-
-  const scores   = computeScores(feedback.ratings);
-  const topSrc   = scores.find(s=>s.count>=3);
-
-  useEffect(()=>{
-    if(topSrc&&topSrc.count>=3&&MODELS.find(m=>m.id===topSrc.src)){
+// ── Main ──────────────────────────────────────────────────────────────────────
+function WeatherDash() {
+  var _weather$daily, _weather$hourly, _weather$location, _daily$, _am$unit, _am$unit2, _SOURCE_LABELS$rating;
+  var _useState3 = useState(DEFAULT_LOC),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loc = _useState4[0],
+    setLoc = _useState4[1];
+  var _useState5 = useState('best_match'),
+    _useState6 = _slicedToArray(_useState5, 2),
+    model = _useState6[0],
+    setModel = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    weather = _useState8[0],
+    setWeather = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    loading = _useState0[0],
+    setLoading = _useState0[1];
+  var _useState1 = useState(null),
+    _useState10 = _slicedToArray(_useState1, 2),
+    error = _useState10[0],
+    setError = _useState10[1];
+  var _useState11 = useState(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    lastFetch = _useState12[0],
+    setLF = _useState12[1];
+  var _useState13 = useState('temp'),
+    _useState14 = _slicedToArray(_useState13, 2),
+    metric = _useState14[0],
+    setMetric = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showSearch = _useState16[0],
+    setSS = _useState16[1];
+  var _useState17 = useState(''),
+    _useState18 = _slicedToArray(_useState17, 2),
+    searchQ = _useState18[0],
+    setSearchQ = _useState18[1];
+  var _useState19 = useState([]),
+    _useState20 = _slicedToArray(_useState19, 2),
+    geoRes = _useState20[0],
+    setGeoRes = _useState20[1];
+  var _useState21 = useState(false),
+    _useState22 = _slicedToArray(_useState21, 2),
+    geoLoad = _useState22[0],
+    setGL = _useState22[1];
+  var _useState23 = useState(function () {
+      return loadFB();
+    }),
+    _useState24 = _slicedToArray(_useState23, 2),
+    feedback = _useState24[0],
+    setFeedback = _useState24[1];
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    ratingFor = _useState26[0],
+    setRF = _useState26[1];
+  var _useState27 = useState(false),
+    _useState28 = _slicedToArray(_useState27, 2),
+    justRated = _useState28[0],
+    setJR = _useState28[1];
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    pendingScore = _useState30[0],
+    setPS = _useState30[1];
+  var _useState31 = useState(false),
+    _useState32 = _slicedToArray(_useState31, 2),
+    showHist = _useState32[0],
+    setSH = _useState32[1];
+  var scores = computeScores(feedback.ratings);
+  var topSrc = scores.find(function (s) {
+    return s.count >= 3;
+  });
+  useEffect(function () {
+    if (topSrc && topSrc.count >= 3 && MODELS.find(function (m) {
+      return m.id === topSrc.src;
+    })) {
       setModel(topSrc.src);
     }
-  },[topSrc?.src]);
-
-  const doFetch = useCallback(async(targetLoc,mdl)=>{
-    setLoading(true);setError(null);setJR(false);setPS(null);
-    try{
-      const raw=await fetchWeather(targetLoc.lat,targetLoc.lon,mdl);
-      const result=transformWeather(raw,targetLoc.name,mdl);
-      setWeather(result);
-      setLF(new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
-      setRF({fid:Date.now(),src:mdl,loc:targetLoc.name,
-        date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
-        desc:result.daily?.[0]?.desc??'',hi:result.daily?.[0]?.high,lo:result.daily?.[0]?.low});
-    }catch(e){setError(e.message);}
-    finally{setLoading(false);}
-  },[]);
-
-  useEffect(()=>{doFetch(DEFAULT_LOC,'best_match');},[]);
-
-  const handleModel = m => {setModel(m);doFetch(loc,m);};
-
-  useEffect(()=>{
-    if(!searchQ||searchQ.length<2){setGeoRes([]);return;}
-    const t=setTimeout(()=>{setGL(true);geoSearch(searchQ).then(setGeoRes).catch(()=>setGeoRes([])).finally(()=>setGL(false));},380);
-    return()=>clearTimeout(t);
-  },[searchQ]);
-
-  const pickGeo = r => {
-    const nl={lat:r.latitude,lon:r.longitude,name:[r.name,r.admin1,r.country].filter(Boolean).join(', ')};
-    setLoc(nl);setSS(false);setSearchQ('');setGeoRes([]);doFetch(nl,model);
+  }, [topSrc === null || topSrc === void 0 ? void 0 : topSrc.src]);
+  var doFetch = useCallback(/*#__PURE__*/function () {
+    var _ref1 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(targetLoc, mdl) {
+      var _result$daily$0$desc, _result$daily, _result$daily2, _result$daily3, raw, result, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            setLoading(true);
+            setError(null);
+            setJR(false);
+            setPS(null);
+            _context.p = 1;
+            _context.n = 2;
+            return fetchWeather(targetLoc.lat, targetLoc.lon, mdl);
+          case 2:
+            raw = _context.v;
+            result = transformWeather(raw, targetLoc.name, mdl);
+            setWeather(result);
+            setLF(new Date().toLocaleTimeString('en-GB', {
+              hour: '2-digit',
+              minute: '2-digit'
+            }));
+            setRF({
+              fid: Date.now(),
+              src: mdl,
+              loc: targetLoc.name,
+              date: new Date().toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              }),
+              desc: (_result$daily$0$desc = (_result$daily = result.daily) === null || _result$daily === void 0 || (_result$daily = _result$daily[0]) === null || _result$daily === void 0 ? void 0 : _result$daily.desc) !== null && _result$daily$0$desc !== void 0 ? _result$daily$0$desc : '',
+              hi: (_result$daily2 = result.daily) === null || _result$daily2 === void 0 || (_result$daily2 = _result$daily2[0]) === null || _result$daily2 === void 0 ? void 0 : _result$daily2.high,
+              lo: (_result$daily3 = result.daily) === null || _result$daily3 === void 0 || (_result$daily3 = _result$daily3[0]) === null || _result$daily3 === void 0 ? void 0 : _result$daily3.low
+            });
+            _context.n = 4;
+            break;
+          case 3:
+            _context.p = 3;
+            _t = _context.v;
+            setError(_t.message);
+          case 4:
+            _context.p = 4;
+            setLoading(false);
+            return _context.f(4);
+          case 5:
+            return _context.a(2);
+        }
+      }, _callee, null, [[1, 3, 4, 5]]);
+    }));
+    return function (_x5, _x6) {
+      return _ref1.apply(this, arguments);
+    };
+  }(), []);
+  useEffect(function () {
+    doFetch(DEFAULT_LOC, 'best_match');
+  }, []);
+  var handleModel = function handleModel(m) {
+    setModel(m);
+    doFetch(loc, m);
   };
-
-  const submitRating = score => {
-    if(!ratingFor)return;
-    const nr={id:ratingFor.fid,ts:Date.now(),score,src:ratingFor.src,loc:ratingFor.loc,date:ratingFor.date,desc:ratingFor.desc};
-    const updated={ratings:[...feedback.ratings,nr]};
-    setFeedback(updated);saveFB(updated);setJR(true);setPS(score);
+  useEffect(function () {
+    if (!searchQ || searchQ.length < 2) {
+      setGeoRes([]);
+      return;
+    }
+    var t = setTimeout(function () {
+      setGL(true);
+      geoSearch(searchQ).then(setGeoRes).catch(function () {
+        return setGeoRes([]);
+      }).finally(function () {
+        return setGL(false);
+      });
+    }, 380);
+    return function () {
+      return clearTimeout(t);
+    };
+  }, [searchQ]);
+  var pickGeo = function pickGeo(r) {
+    var nl = {
+      lat: r.latitude,
+      lon: r.longitude,
+      name: [r.name, r.admin1, r.country].filter(Boolean).join(', ')
+    };
+    setLoc(nl);
+    setSS(false);
+    setSearchQ('');
+    setGeoRes([]);
+    doFetch(nl, model);
   };
-
-  const clearRatings = ()=>{const e={ratings:[]};setFeedback(e);saveFB(e);setSH(false);};
-
-  const cur  = weather?.current;
-  const daily= weather?.daily??[];
-  const hrly = weather?.hourly??[];
-  const am   = METRICS.find(m=>m.id===metric);
-  const chart= hrly.map(h=>({label:h.time,temp:h.temp,precipProb:h.precipProb,wind:h.wind}));
-  const alreadyRated = ratingFor&&feedback.ratings.some(r=>r.id===ratingFor.fid);
-  const today = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-  return (
-    <div style={{background:'#f8fafc',minHeight:'100vh',paddingTop:'env(safe-area-inset-top,0px)',paddingBottom:'env(safe-area-inset-bottom,20px)'}}>
-      <div style={{maxWidth:560,margin:'0 auto',padding:'16px 14px 32px'}}>
-        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20}}>
-          <div>
-            <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,flexWrap:'wrap'}}>
-              <p style={CS.lbl}>Weather HQ</p>
-              {!loading&&weather&&<span style={CS.tag('#dcfce7','#15803d')}>● LIVE</span>}
-              {loading&&<span style={CS.tag('#eff6ff','#2563eb')}>⟳ LOADING</span>}
-              {topSrc&&topSrc.count>=3&&<span style={CS.tag('#eff6ff','#2563eb')}>🧠 {topSrc.label}</span>}
-            </div>
-            <h1 style={{fontSize:22,fontWeight:700,color:'#0f172a',marginBottom:2}}>{weather?.location??loc.name}</h1>
-            <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>
-              {lastFetch?`Updated ${lastFetch}`:today}
-              {weather?.sourceLabel&&` · ${weather.sourceLabel}`}
-            </p>
-          </div>
-          <div style={{display:'flex',gap:8,marginLeft:12,flexShrink:0}}>
-            <button onClick={()=>doFetch(loc,model)} disabled={loading} style={{...CS.btn,opacity:loading?0.4:1}}>↻</button>
-            <button onClick={()=>{setSS(v=>!v);setSearchQ('');setGeoRes([]);}}
-              style={{...CS.btn,background:showSearch?'#eff6ff':'#fff',borderColor:showSearch?'#93c5fd':'#e2e8f0',color:showSearch?'#2563eb':'#475569'}}>
-              {showSearch?'✕':'📍'}
-            </button>
-          </div>
-        </div>
-        {showSearch&&(
-          <div className="fi" style={{...CS.card,padding:16,marginBottom:16}}>
-            <input autoFocus
-              style={{width:'100%',borderRadius:8,padding:'10px 14px',border:'1px solid #e2e8f0',background:'#f8fafc',color:'#1e293b',outline:'none',fontSize:14}}
-              onFocus={e=>e.target.style.borderColor='#2563eb'}
-              onBlur={e=>e.target.style.borderColor='#e2e8f0'}
-              placeholder="Search city or destination…"
-              value={searchQ} onChange={e=>setSearchQ(e.target.value)}
-            />
-            {geoLoad&&<p style={{...CS.mono,fontSize:11,color:'#94a3b8',marginTop:8}}>SEARCHING…</p>}
-            <div style={{marginTop:4}}>
-              {geoRes.map((r,i)=>(
-                <button key={i} onClick={()=>pickGeo(r)}
-                  style={{display:'block',width:'100%',textAlign:'left',padding:'9px 2px',border:'none',background:'none',
-                    borderBottom:i<geoRes.length-1?'1px solid #f1f5f9':'none',fontSize:14}}>
-                  <span style={{fontWeight:500,color:'#1e293b'}}>{r.name}</span>
-                  {r.admin1&&<span style={{color:'#64748b',marginLeft:8,fontSize:13}}>{r.admin1}</span>}
-                  <span style={{color:'#cbd5e1',marginLeft:8,fontSize:12}}>{r.country}</span>
-                </button>
-              ))}
-            </div>
-            {loc.name!==DEFAULT_LOC.name&&(
-              <button onClick={()=>{setLoc(DEFAULT_LOC);setSS(false);doFetch(DEFAULT_LOC,model);}}
-                style={{...CS.mono,fontSize:11,color:'#2563eb',marginTop:10,border:'none',background:'none',padding:0}}>
-                ↩ Return to Cane End
-              </button>
-            )}
-          </div>
-        )}
-        <div style={{display:'flex',borderRadius:8,overflow:'hidden',border:'1px solid #e2e8f0',marginBottom:16,width:'fit-content'}}>
-          {MODELS.map((m,i)=>(
-            <button key={m.id} onClick={()=>handleModel(m.id)}
-              style={{padding:'7px 11px',fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.07em',
-                border:'none',borderRight:i<MODELS.length-1?'1px solid #e2e8f0':'none',
-                background:model===m.id?'#eff6ff':'#fff',color:model===m.id?'#2563eb':'#94a3b8'}}>
-              {m.label}{topSrc&&topSrc.src===m.id&&topSrc.count>=3?' 🧠':''}
-            </button>
-          ))}
-        </div>
-        {error&&!loading&&(
-          <div style={{marginBottom:16,borderRadius:12,padding:'12px 16px',background:'#fff1f2',border:'1px solid #fecdd3',color:'#be123c',...CS.mono,fontSize:12}}>
-            <p style={{fontWeight:600,marginBottom:4}}>⚠ Error connecting to weather service</p>
-            <p style={{wordBreak:'break-word',marginBottom:8,opacity:.8}}>{error}</p>
-            <button onClick={()=>doFetch(loc,model)} style={{textDecoration:'underline',border:'none',background:'none',color:'#be123c',padding:0,...CS.mono,fontSize:11}}>RETRY</button>
-          </div>
-        )}
-        {loading&&!weather&&(
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'80px 0',gap:16}}>
-            <div style={{width:36,height:36,border:'3px solid #e2e8f0',borderTop:'3px solid #2563eb',borderRadius:'50%',animation:'spin .8s linear infinite'}}/>
-            <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>FETCHING LIVE DATA…</p>
-          </div>
-        )}
-        {weather&&cur&&(
-          <div className="fi">
-            <div style={{...CS.card,padding:20,marginBottom:14}}>
-              <div style={{display:'flex',alignItems:'flex-start',gap:14,marginBottom:18}}>
-                <span style={{fontSize:52}}>{cur.icon}</span>
-                <div style={{flex:1}}>
-                  <div style={{display:'flex',alignItems:'baseline',gap:10,flexWrap:'wrap'}}>
-                    <span style={{fontFamily:'monospace',fontWeight:700,fontSize:46,lineHeight:1,color:'#0f172a'}}>{rv(cur.temp)}°C</span>
-                    <div>
-                      <p style={{fontWeight:600,color:'#334155',marginBottom:2}}>{cur.desc}</p>
-                      <p style={{...CS.mono,fontSize:12,color:'#94a3b8'}}>FEELS {rv(cur.feelsLike)}°C</p>
-                    </div>
-                  </div>
-                </div>
-                {daily[0]?.sunrise&&(
-                  <div style={{textAlign:'right',...CS.mono,fontSize:11,color:'#94a3b8',flexShrink:0}}>
-                    <p>☀️ {daily[0].sunrise}</p>
-                    <p style={{marginTop:2}}>🌅 {daily[0].sunset}</p>
-                  </div>
-                )}
-              </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
-                <Stat label="WIND"     value={rv(cur.wind)}     unit="km/h" sub={`${cur.windDir} · GUSTS ${rv(cur.gusts)}`}/>
-                <Stat label="HUMIDITY" value={cur.humidity}     unit="%"/>
-                <Stat label="CLOUD"    value={cur.cloud}        unit="%"/>
-                <Stat label="PRECIP"   value={rv(cur.precip,1)} unit="mm" sub="LAST HOUR"/>
-              </div>
-            </div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10,marginBottom:14}}>
-              {daily.map((d,i)=><DayCard key={i} d={d} today={i===0}/>)}
-            </div>
-            {chart.length>1&&(
-              <div style={{...CS.card,padding:20,marginBottom:14}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
-                  <p style={CS.lbl}>72-Hour Trend</p>
-                  <div style={{display:'flex',borderRadius:8,overflow:'hidden',border:'1px solid #e2e8f0'}}>
-                    {METRICS.map((m,i)=>(
-                      <button key={m.id} onClick={()=>setMetric(m.id)}
-                        style={{padding:'5px 10px',fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.07em',
-                          border:'none',borderRight:i<METRICS.length-1?'1px solid #e2e8f0':'none',
-                          background:metric===m.id?'#eff6ff':'#fff',color:metric===m.id?'#2563eb':'#94a3b8'}}>
-                        {m.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <ResponsiveContainer width="100%" height={150}>
-                  <ComposedChart data={chart} margin={{top:5,right:5,left:-30,bottom:0}}>
-                    <CartesianGrid strokeDasharray="2 4" stroke="#f1f5f9" vertical={false}/>
-                    <XAxis dataKey="label" tick={{fill:'#cbd5e1',fontSize:10,fontFamily:'monospace'}} tickLine={false} axisLine={false} interval="preserveStartEnd"/>
-                    <YAxis yAxisId="y" tick={{fill:'#cbd5e1',fontSize:10,fontFamily:'monospace'}} tickLine={false} axisLine={false}
-                      unit={am?.unit??''} domain={metric==='rain'?[0,100]:['auto','auto']}/>
-                    <Tooltip content={<ChartTip/>}/>
-                    {metric==='rain'
-                      ?<Area yAxisId="y" type="monotone" dataKey="precipProb" fill="#bfdbfe" stroke={am.color} strokeWidth={2} dot={{fill:am.color,r:3}} name="Rain Prob" unit="%"/>
-                      :<Line yAxisId="y" type="monotone" dataKey={am?.key} stroke={am?.color} strokeWidth={2.5} dot={{fill:am?.color,r:3}} name={am?.label} unit={am?.unit??''}/>
-                    }
-                  </ComposedChart>
-                </ResponsiveContainer>
-              </div>
-            )}
-            <div style={{...CS.card,padding:20,marginBottom:14}}>
-              <p style={{...CS.lbl,marginBottom:12}}>Hourly · 3hr intervals</p>
-              <div className="nosb" style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4}}>
-                {hrly.map((h,i)=><HourCard key={i} h={h}/>)}
-              </div>
-            </div>
-            <div style={{...CS.card,padding:20,marginBottom:14}}>
-              <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:12}}>
-                <div>
-                  <p style={CS.lbl}>Rate forecast accuracy</p>
-                  <p style={{fontSize:12,color:'#94a3b8',marginTop:4}}>Return after today's weather and score how accurate this was.</p>
-                </div>
-                {ratingFor&&<span style={{...CS.tag('#f1f5f9','#64748b'),flexShrink:0,marginLeft:10}}>{SOURCE_LABELS[ratingFor.src]??ratingFor.src}</span>}
-              </div>
-              {ratingFor&&(
-                <div style={{background:'#f8fafc',border:'1px solid #f1f5f9',borderRadius:10,padding:12,marginBottom:14}}>
-                  <p style={{...CS.mono,fontSize:11,color:'#64748b'}}>📅 {ratingFor.date} · {ratingFor.loc}</p>
-                  <p style={{...CS.mono,fontSize:11,color:'#64748b',marginTop:2}}>Forecast: {ratingFor.desc} · {rv(ratingFor.hi)}° / {rv(ratingFor.lo)}°</p>
-                </div>
-              )}
-              {alreadyRated||justRated
-                ?<div style={{display:'flex',alignItems:'center',gap:10}}>
-                    <div style={{display:'flex',gap:2}}>
-                      {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:22,filter:n<=(pendingScore??feedback.ratings.find(r=>r.id===ratingFor?.fid)?.score??0)?'none':'grayscale(1) opacity(0.2)'}}>⭐</span>)}
-                    </div>
-                    <p style={{fontSize:14,fontWeight:500,color:'#15803d'}}>Saved!</p>
-                  </div>
-                :<StarRating value={pendingScore} onChange={submitRating} disabled={!ratingFor||loading}/>
-              }
-            </div>
-            <div style={{...CS.card,padding:20,marginBottom:14}}>
-              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
-                <div>
-                  <p style={CS.lbl}>Accuracy leaderboard</p>
-                  <p style={{fontSize:12,color:'#94a3b8',marginTop:4}}>Recency-weighted · auto-selects best model at 3+ ratings</p>
-                </div>
-                {feedback.ratings.length>0&&(
-                  <button onClick={()=>setSH(v=>!v)} style={{...CS.mono,fontSize:11,color:'#94a3b8',border:'none',background:'none',padding:0,flexShrink:0,marginLeft:8}}>
-                    {showHist?'HIDE ▲':`HISTORY (${feedback.ratings.length}) ▼`}
-                  </button>
-                )}
-              </div>
-              {scores.length===0
-                ?<div style={{background:'#f8fafc',border:'1px solid #f1f5f9',borderRadius:10,padding:16,textAlign:'center'}}>
-                    <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>No ratings yet. Score a few forecasts to build your accuracy model.</p>
-                  </div>
-                :<div style={{display:'flex',flexDirection:'column',gap:12}}>
-                    {scores.map((sc,i)=>(
-                      <div key={sc.src}>
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
-                          <p style={{fontSize:14,fontWeight:500,color:'#334155'}}>{sc.label}</p>
-                          <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>Last: {sc.last}</p>
-                        </div>
-                        <ScoreBar avg={sc.avg} count={sc.count} isBest={i===0}/>
-                      </div>
-                    ))}
-                  </div>
-              }
-              {topSrc&&topSrc.count>=3&&(
-                <div style={{marginTop:14,borderRadius:10,padding:'10px 14px',background:'#f0fdf4',border:'1px solid #bbf7d0'}}>
-                  <p style={{...CS.mono,fontSize:11,color:'#15803d'}}>
-                    🧠 LEARNING ACTIVE — Favouring <strong>{topSrc.label}</strong> ({topSrc.avg.toFixed(1)}/5 over {topSrc.count} ratings)
-                  </p>
-                </div>
-              )}
-              {showHist&&feedback.ratings.length>0&&(
-                <div style={{marginTop:14}}>
-                  <div style={{borderRadius:10,overflow:'hidden',border:'1px solid #f1f5f9'}}>
-                    {[...feedback.ratings].reverse().map((r,i)=>(
-                      <div key={r.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',
-                        background:i%2===0?'#f8fafc':'#fff',borderBottom:i<feedback.ratings.length-1?'1px solid #f1f5f9':'none'}}>
-                        <div>
-                          <p style={{...CS.mono,fontSize:11,fontWeight:600,color:'#475569'}}>{r.loc}</p>
-                          <p style={{...CS.mono,fontSize:11,color:'#94a3b8',marginTop:1}}>{r.date} · {SOURCE_LABELS[r.src]??r.src}</p>
-                        </div>
-                        <div style={{display:'flex',gap:1}}>
-                          {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:12,filter:n<=r.score?'none':'grayscale(1) opacity(0.2)'}}>⭐</span>)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <button onClick={clearRatings} style={{...CS.mono,fontSize:11,color:'#ef4444',marginTop:10,border:'none',background:'none',padding:0}}>Clear all ratings</button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        <p style={{...CS.mono,fontSize:10,color:'#cbd5e1',textAlign:'center',marginTop:8}}>
-          WEATHER HQ · LIVE · ECMWF · MET OFFICE UKV · NOAA GFS
-        </p>
-      </div>
-    </div>
-  );
+  var submitRating = function submitRating(score) {
+    if (!ratingFor) return;
+    var nr = {
+      id: ratingFor.fid,
+      ts: Date.now(),
+      score: score,
+      src: ratingFor.src,
+      loc: ratingFor.loc,
+      date: ratingFor.date,
+      desc: ratingFor.desc
+    };
+    var updated = {
+      ratings: [].concat(_toConsumableArray(feedback.ratings), [nr])
+    };
+    setFeedback(updated);
+    saveFB(updated);
+    setJR(true);
+    setPS(score);
+  };
+  var clearRatings = function clearRatings() {
+    var e = {
+      ratings: []
+    };
+    setFeedback(e);
+    saveFB(e);
+    setSH(false);
+  };
+  var cur = weather === null || weather === void 0 ? void 0 : weather.current;
+  var daily = (_weather$daily = weather === null || weather === void 0 ? void 0 : weather.daily) !== null && _weather$daily !== void 0 ? _weather$daily : [];
+  var hrly = (_weather$hourly = weather === null || weather === void 0 ? void 0 : weather.hourly) !== null && _weather$hourly !== void 0 ? _weather$hourly : [];
+  var am = METRICS.find(function (m) {
+    return m.id === metric;
+  });
+  var chart = hrly.map(function (h) {
+    return {
+      label: h.time,
+      temp: h.temp,
+      precipProb: h.precipProb,
+      wind: h.wind
+    };
+  });
+  var alreadyRated = ratingFor && feedback.ratings.some(function (r) {
+    return r.id === ratingFor.fid;
+  });
+  var today = new Date().toLocaleDateString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#f8fafc',
+      minHeight: '100vh',
+      paddingTop: 'env(safe-area-inset-top,0px)',
+      paddingBottom: 'env(safe-area-inset-bottom,20px)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 560,
+      margin: '0 auto',
+      padding: '16px 14px 32px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      marginBottom: 4,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: CS.lbl
+  }, "Weather HQ"), !loading && weather && /*#__PURE__*/React.createElement("span", {
+    style: CS.tag('#dcfce7', '#15803d')
+  }, "\u25CF LIVE"), loading && /*#__PURE__*/React.createElement("span", {
+    style: CS.tag('#eff6ff', '#2563eb')
+  }, "\u27F3 LOADING"), topSrc && topSrc.count >= 3 && /*#__PURE__*/React.createElement("span", {
+    style: CS.tag('#eff6ff', '#2563eb')
+  }, "\uD83E\uDDE0 ", topSrc.label)), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: 22,
+      fontWeight: 700,
+      color: '#0f172a',
+      marginBottom: 2
+    }
+  }, (_weather$location = weather === null || weather === void 0 ? void 0 : weather.location) !== null && _weather$location !== void 0 ? _weather$location : loc.name), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8'
+    })
+  }, lastFetch ? "Updated ".concat(lastFetch) : today, (weather === null || weather === void 0 ? void 0 : weather.sourceLabel) && " \xB7 ".concat(weather.sourceLabel))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      marginLeft: 12,
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return doFetch(loc, model);
+    },
+    disabled: loading,
+    style: _objectSpread(_objectSpread({}, CS.btn), {}, {
+      opacity: loading ? 0.4 : 1
+    })
+  }, "\u21BB"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setSS(function (v) {
+        return !v;
+      });
+      setSearchQ('');
+      setGeoRes([]);
+    },
+    style: _objectSpread(_objectSpread({}, CS.btn), {}, {
+      background: showSearch ? '#eff6ff' : '#fff',
+      borderColor: showSearch ? '#93c5fd' : '#e2e8f0',
+      color: showSearch ? '#2563eb' : '#475569'
+    })
+  }, showSearch ? '✕' : '📍'))), showSearch && /*#__PURE__*/React.createElement("div", {
+    className: "fi",
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 16,
+      marginBottom: 16
+    })
+  }, /*#__PURE__*/React.createElement("input", {
+    autoFocus: true,
+    style: {
+      width: '100%',
+      borderRadius: 8,
+      padding: '10px 14px',
+      border: '1px solid #e2e8f0',
+      background: '#f8fafc',
+      color: '#1e293b',
+      outline: 'none',
+      fontSize: 14
+    },
+    onFocus: function onFocus(e) {
+      return e.target.style.borderColor = '#2563eb';
+    },
+    onBlur: function onBlur(e) {
+      return e.target.style.borderColor = '#e2e8f0';
+    },
+    placeholder: "Search city or destination\u2026",
+    value: searchQ,
+    onChange: function onChange(e) {
+      return setSearchQ(e.target.value);
+    }
+  }), geoLoad && /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8',
+      marginTop: 8
+    })
+  }, "SEARCHING\u2026"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 4
+    }
+  }, geoRes.map(function (r, i) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return pickGeo(r);
+      },
+      style: {
+        display: 'block',
+        width: '100%',
+        textAlign: 'left',
+        padding: '9px 2px',
+        border: 'none',
+        background: 'none',
+        borderBottom: i < geoRes.length - 1 ? '1px solid #f1f5f9' : 'none',
+        fontSize: 14
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 500,
+        color: '#1e293b'
+      }
+    }, r.name), r.admin1 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: '#64748b',
+        marginLeft: 8,
+        fontSize: 13
+      }
+    }, r.admin1), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: '#cbd5e1',
+        marginLeft: 8,
+        fontSize: 12
+      }
+    }, r.country));
+  })), loc.name !== DEFAULT_LOC.name && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setLoc(DEFAULT_LOC);
+      setSS(false);
+      doFetch(DEFAULT_LOC, model);
+    },
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#2563eb',
+      marginTop: 10,
+      border: 'none',
+      background: 'none',
+      padding: 0
+    })
+  }, "\u21A9 Return to Cane End")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      borderRadius: 8,
+      overflow: 'hidden',
+      border: '1px solid #e2e8f0',
+      marginBottom: 16,
+      width: 'fit-content'
+    }
+  }, MODELS.map(function (m, i) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: m.id,
+      onClick: function onClick() {
+        return handleModel(m.id);
+      },
+      style: {
+        padding: '7px 11px',
+        fontSize: 11,
+        fontFamily: 'monospace',
+        textTransform: 'uppercase',
+        letterSpacing: '0.07em',
+        border: 'none',
+        borderRight: i < MODELS.length - 1 ? '1px solid #e2e8f0' : 'none',
+        background: model === m.id ? '#eff6ff' : '#fff',
+        color: model === m.id ? '#2563eb' : '#94a3b8'
+      }
+    }, m.label, topSrc && topSrc.src === m.id && topSrc.count >= 3 ? ' 🧠' : '');
+  })), error && !loading && /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({
+      marginBottom: 16,
+      borderRadius: 12,
+      padding: '12px 16px',
+      background: '#fff1f2',
+      border: '1px solid #fecdd3',
+      color: '#be123c'
+    }, CS.mono), {}, {
+      fontSize: 12
+    })
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontWeight: 600,
+      marginBottom: 4
+    }
+  }, "\u26A0 Error connecting to weather service"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      wordBreak: 'break-word',
+      marginBottom: 8,
+      opacity: .8
+    }
+  }, error), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return doFetch(loc, model);
+    },
+    style: _objectSpread(_objectSpread({
+      textDecoration: 'underline',
+      border: 'none',
+      background: 'none',
+      color: '#be123c',
+      padding: 0
+    }, CS.mono), {}, {
+      fontSize: 11
+    })
+  }, "RETRY")), loading && !weather && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '80px 0',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 36,
+      border: '3px solid #e2e8f0',
+      borderTop: '3px solid #2563eb',
+      borderRadius: '50%',
+      animation: 'spin .8s linear infinite'
+    }
+  }), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8'
+    })
+  }, "FETCHING LIVE DATA\u2026")), weather && cur && /*#__PURE__*/React.createElement("div", {
+    className: "fi"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 20,
+      marginBottom: 14
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: 14,
+      marginBottom: 18
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 52
+    }
+  }, cur.icon), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 10,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'monospace',
+      fontWeight: 700,
+      fontSize: 46,
+      lineHeight: 1,
+      color: '#0f172a'
+    }
+  }, rv(cur.temp), "\xB0C"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontWeight: 600,
+      color: '#334155',
+      marginBottom: 2
+    }
+  }, cur.desc), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 12,
+      color: '#94a3b8'
+    })
+  }, "FEELS ", rv(cur.feelsLike), "\xB0C")))), ((_daily$ = daily[0]) === null || _daily$ === void 0 ? void 0 : _daily$.sunrise) && /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({
+      textAlign: 'right'
+    }, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8',
+      flexShrink: 0
+    })
+  }, /*#__PURE__*/React.createElement("p", null, "\u2600\uFE0F ", daily[0].sunrise), /*#__PURE__*/React.createElement("p", {
+    style: {
+      marginTop: 2
+    }
+  }, "\uD83C\uDF05 ", daily[0].sunset))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Stat, {
+    label: "WIND",
+    value: rv(cur.wind),
+    unit: "km/h",
+    sub: "".concat(cur.windDir, " \xB7 GUSTS ").concat(rv(cur.gusts))
+  }), /*#__PURE__*/React.createElement(Stat, {
+    label: "HUMIDITY",
+    value: cur.humidity,
+    unit: "%"
+  }), /*#__PURE__*/React.createElement(Stat, {
+    label: "CLOUD",
+    value: cur.cloud,
+    unit: "%"
+  }), /*#__PURE__*/React.createElement(Stat, {
+    label: "PRECIP",
+    value: rv(cur.precip, 1),
+    unit: "mm",
+    sub: "LAST HOUR"
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 10,
+      marginBottom: 14
+    }
+  }, daily.map(function (d, i) {
+    return /*#__PURE__*/React.createElement(DayCard, {
+      key: i,
+      d: d,
+      today: i === 0
+    });
+  })), chart.length > 1 && /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 20,
+      marginBottom: 14
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: CS.lbl
+  }, "72-Hour Trend"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      borderRadius: 8,
+      overflow: 'hidden',
+      border: '1px solid #e2e8f0'
+    }
+  }, METRICS.map(function (m, i) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: m.id,
+      onClick: function onClick() {
+        return setMetric(m.id);
+      },
+      style: {
+        padding: '5px 10px',
+        fontSize: 11,
+        fontFamily: 'monospace',
+        textTransform: 'uppercase',
+        letterSpacing: '0.07em',
+        border: 'none',
+        borderRight: i < METRICS.length - 1 ? '1px solid #e2e8f0' : 'none',
+        background: metric === m.id ? '#eff6ff' : '#fff',
+        color: metric === m.id ? '#2563eb' : '#94a3b8'
+      }
+    }, m.label);
+  }))), /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: 150
+  }, /*#__PURE__*/React.createElement(ComposedChart, {
+    data: chart,
+    margin: {
+      top: 5,
+      right: 5,
+      left: -30,
+      bottom: 0
+    }
+  }, /*#__PURE__*/React.createElement(CartesianGrid, {
+    strokeDasharray: "2 4",
+    stroke: "#f1f5f9",
+    vertical: false
+  }), /*#__PURE__*/React.createElement(XAxis, {
+    dataKey: "label",
+    tick: {
+      fill: '#cbd5e1',
+      fontSize: 10,
+      fontFamily: 'monospace'
+    },
+    tickLine: false,
+    axisLine: false,
+    interval: "preserveStartEnd"
+  }), /*#__PURE__*/React.createElement(YAxis, {
+    yAxisId: "y",
+    tick: {
+      fill: '#cbd5e1',
+      fontSize: 10,
+      fontFamily: 'monospace'
+    },
+    tickLine: false,
+    axisLine: false,
+    unit: (_am$unit = am === null || am === void 0 ? void 0 : am.unit) !== null && _am$unit !== void 0 ? _am$unit : '',
+    domain: metric === 'rain' ? [0, 100] : ['auto', 'auto']
+  }), /*#__PURE__*/React.createElement(Tooltip, {
+    content: /*#__PURE__*/React.createElement(ChartTip, null)
+  }), metric === 'rain' ? /*#__PURE__*/React.createElement(Area, {
+    yAxisId: "y",
+    type: "monotone",
+    dataKey: "precipProb",
+    fill: "#bfdbfe",
+    stroke: am.color,
+    strokeWidth: 2,
+    dot: {
+      fill: am.color,
+      r: 3
+    },
+    name: "Rain Prob",
+    unit: "%"
+  }) : /*#__PURE__*/React.createElement(Line, {
+    yAxisId: "y",
+    type: "monotone",
+    dataKey: am === null || am === void 0 ? void 0 : am.key,
+    stroke: am === null || am === void 0 ? void 0 : am.color,
+    strokeWidth: 2.5,
+    dot: {
+      fill: am === null || am === void 0 ? void 0 : am.color,
+      r: 3
+    },
+    name: am === null || am === void 0 ? void 0 : am.label,
+    unit: (_am$unit2 = am === null || am === void 0 ? void 0 : am.unit) !== null && _am$unit2 !== void 0 ? _am$unit2 : ''
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 20,
+      marginBottom: 14
+    })
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.lbl), {}, {
+      marginBottom: 12
+    })
+  }, "Hourly \xB7 3hr intervals"), /*#__PURE__*/React.createElement("div", {
+    className: "nosb",
+    style: {
+      display: 'flex',
+      gap: 8,
+      overflowX: 'auto',
+      paddingBottom: 4
+    }
+  }, hrly.map(function (h, i) {
+    return /*#__PURE__*/React.createElement(HourCard, {
+      key: i,
+      h: h
+    });
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 20,
+      marginBottom: 14
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: CS.lbl
+  }, "Rate forecast accuracy"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: '#94a3b8',
+      marginTop: 4
+    }
+  }, "Return after today's weather and score how accurate this was.")), ratingFor && /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread(_objectSpread({}, CS.tag('#f1f5f9', '#64748b')), {}, {
+      flexShrink: 0,
+      marginLeft: 10
+    })
+  }, (_SOURCE_LABELS$rating = SOURCE_LABELS[ratingFor.src]) !== null && _SOURCE_LABELS$rating !== void 0 ? _SOURCE_LABELS$rating : ratingFor.src)), ratingFor && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#f8fafc',
+      border: '1px solid #f1f5f9',
+      borderRadius: 10,
+      padding: 12,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#64748b'
+    })
+  }, "\uD83D\uDCC5 ", ratingFor.date, " \xB7 ", ratingFor.loc), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#64748b',
+      marginTop: 2
+    })
+  }, "Forecast: ", ratingFor.desc, " \xB7 ", rv(ratingFor.hi), "\xB0 / ", rv(ratingFor.lo), "\xB0")), alreadyRated || justRated ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 2
+    }
+  }, [1, 2, 3, 4, 5].map(function (n) {
+    var _ref10, _feedback$ratings$fin;
+    return /*#__PURE__*/React.createElement("span", {
+      key: n,
+      style: {
+        fontSize: 22,
+        filter: n <= ((_ref10 = pendingScore !== null && pendingScore !== void 0 ? pendingScore : (_feedback$ratings$fin = feedback.ratings.find(function (r) {
+          return r.id === (ratingFor === null || ratingFor === void 0 ? void 0 : ratingFor.fid);
+        })) === null || _feedback$ratings$fin === void 0 ? void 0 : _feedback$ratings$fin.score) !== null && _ref10 !== void 0 ? _ref10 : 0) ? 'none' : 'grayscale(1) opacity(0.2)'
+      }
+    }, "\u2B50");
+  })), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 14,
+      fontWeight: 500,
+      color: '#15803d'
+    }
+  }, "Saved!")) : /*#__PURE__*/React.createElement(StarRating, {
+    value: pendingScore,
+    onChange: submitRating,
+    disabled: !ratingFor || loading
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, CS.card), {}, {
+      padding: 20,
+      marginBottom: 14
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: CS.lbl
+  }, "Accuracy leaderboard"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: '#94a3b8',
+      marginTop: 4
+    }
+  }, "Recency-weighted \xB7 auto-selects best model at 3+ ratings")), feedback.ratings.length > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setSH(function (v) {
+        return !v;
+      });
+    },
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8',
+      border: 'none',
+      background: 'none',
+      padding: 0,
+      flexShrink: 0,
+      marginLeft: 8
+    })
+  }, showHist ? 'HIDE ▲' : "HISTORY (".concat(feedback.ratings.length, ") \u25BC"))), scores.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#f8fafc',
+      border: '1px solid #f1f5f9',
+      borderRadius: 10,
+      padding: 16,
+      textAlign: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#94a3b8'
+    })
+  }, "No ratings yet. Score a few forecasts to build your accuracy model.")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, scores.map(function (sc, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: sc.src
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 14,
+        fontWeight: 500,
+        color: '#334155'
+      }
+    }, sc.label), /*#__PURE__*/React.createElement("p", {
+      style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+        fontSize: 11,
+        color: '#94a3b8'
+      })
+    }, "Last: ", sc.last)), /*#__PURE__*/React.createElement(ScoreBar, {
+      avg: sc.avg,
+      count: sc.count,
+      isBest: i === 0
+    }));
+  })), topSrc && topSrc.count >= 3 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14,
+      borderRadius: 10,
+      padding: '10px 14px',
+      background: '#f0fdf4',
+      border: '1px solid #bbf7d0'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#15803d'
+    })
+  }, "\uD83E\uDDE0 LEARNING ACTIVE \u2014 Favouring ", /*#__PURE__*/React.createElement("strong", null, topSrc.label), " (", topSrc.avg.toFixed(1), "/5 over ", topSrc.count, " ratings)")), showHist && feedback.ratings.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: 10,
+      overflow: 'hidden',
+      border: '1px solid #f1f5f9'
+    }
+  }, _toConsumableArray(feedback.ratings).reverse().map(function (r, i) {
+    var _SOURCE_LABELS$r$src;
+    return /*#__PURE__*/React.createElement("div", {
+      key: r.id,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '10px 14px',
+        background: i % 2 === 0 ? '#f8fafc' : '#fff',
+        borderBottom: i < feedback.ratings.length - 1 ? '1px solid #f1f5f9' : 'none'
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+        fontSize: 11,
+        fontWeight: 600,
+        color: '#475569'
+      })
+    }, r.loc), /*#__PURE__*/React.createElement("p", {
+      style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+        fontSize: 11,
+        color: '#94a3b8',
+        marginTop: 1
+      })
+    }, r.date, " \xB7 ", (_SOURCE_LABELS$r$src = SOURCE_LABELS[r.src]) !== null && _SOURCE_LABELS$r$src !== void 0 ? _SOURCE_LABELS$r$src : r.src)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: 1
+      }
+    }, [1, 2, 3, 4, 5].map(function (n) {
+      return /*#__PURE__*/React.createElement("span", {
+        key: n,
+        style: {
+          fontSize: 12,
+          filter: n <= r.score ? 'none' : 'grayscale(1) opacity(0.2)'
+        }
+      }, "\u2B50");
+    })));
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: clearRatings,
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 11,
+      color: '#ef4444',
+      marginTop: 10,
+      border: 'none',
+      background: 'none',
+      padding: 0
+    })
+  }, "Clear all ratings")))), /*#__PURE__*/React.createElement("p", {
+    style: _objectSpread(_objectSpread({}, CS.mono), {}, {
+      fontSize: 10,
+      color: '#cbd5e1',
+      textAlign: 'center',
+      marginTop: 8
+    })
+  }, "WEATHER HQ \xB7 LIVE \xB7 ECMWF \xB7 MET OFFICE UKV \xB7 NOAA GFS")));
 }
-
-ReactDOM.createRoot(document.getElementById('root')).render(<WeatherDash/>);
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
-
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(WeatherDash, null));
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function () {});
+}
 </script>
 </body>
 </html>
