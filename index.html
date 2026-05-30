@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Weather HQ">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="icon" href="/icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <title>Weather HQ</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+    body{background:#f8fafc;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:#1e293b}
+    input,button{font-family:inherit}
+    button{cursor:pointer}
+    .nosb::-webkit-scrollbar{display:none}
+    .nosb{-ms-overflow-style:none;scrollbar-width:none}
+    .fi{animation:fi .3s ease}
+    @keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+
+const {useState,useEffect,useCallback} = React;
+const {ComposedChart,Line,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} = Recharts;
+
+const DEFAULT_LOC = {lat:51.5327,lon:-1.0435,name:'Cane End, Reading'};
+const MODELS = [
+  {id:'best_match',    label:'AUTO'},
+  {id:'ecmwf_ifs025',  label:'ECMWF'},
+  {id:'uk_met_office', label:'MET OFFICE'},
+  {id:'gfs_seamless',  label:'GFS'},
+];
+const SOURCE_LABELS = {best_match:'Auto',ecmwf_ifs025:'ECMWF',uk_met_office:'Met Office',gfs_seamless:'NOAA GFS'};
+const WMO = {
+  0:['Clear Sky','☀️'],1:['Mainly Clear','🌤️'],2:['Partly Cloudy','⛅'],3:['Overcast','☁️'],
+  45:['Fog','🌫️'],48:['Freezing Fog','🌫️'],
+  51:['Light Drizzle','🌦️'],53:['Drizzle','🌦️'],55:['Heavy Drizzle','🌧️'],
+  61:['Light Rain','🌧️'],63:['Rain','🌧️'],65:['Heavy Rain','🌧️'],
+  71:['Light Snow','🌨️'],73:['Snow','❄️'],75:['Heavy Snow','❄️'],
+  80:['Light Showers','🌦️'],81:['Showers','🌧️'],82:['Heavy Showers','⛈️'],
+  95:['Thunderstorm','⛈️'],96:['Storm+Hail','⛈️'],99:['Severe Storm','⛈️'],
+};
+const wmo = c => {const w=WMO[c];return w?{desc:w[0],icon:w[1]}:{desc:'Unknown',icon:'🌡️'}};
+const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+const wdir = d => d!=null?DIRS[Math.round(d/22.5)%16]:'—';
+const fmtTime = iso => new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const fmtDay  = iso => new Date(iso).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const fmtChart= iso => {
+  const d=new Date(iso);
+  return d.getHours()===0
+    ? d.toLocaleDateString('en-GB',{weekday:'short'})
+    : d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+};
+const rv = (v,d=0) => v!=null?Number(v).toFixed(d):'—';
+const METRICS = [
+  {id:'temp', label:'TEMP',color:'#2563eb',unit:'°C',   key:'temp'},
+  {id:'rain', label:'RAIN',color:'#0ea5e9',unit:'%',    key:'precipProb'},
+  {id:'wind', label:'WIND',color:'#10b981',unit:' km/h',key:'wind'},
+];
+const STAR_LABELS = {1:'Way off',2:'Somewhat off',3:'Roughly right',4:'Pretty accurate',5:'Spot on'};
+
+const SK = 'whq_feedback_v1';
+const loadFB = () => {try{const d=localStorage.getItem(SK);return d?JSON.parse(d):{ratings:[]}}catch{return {ratings:[]}}};
+const saveFB  = d => {try{localStorage.setItem(SK,JSON.stringify(d))}catch{}};
+
+const computeScores = ratings => {
+  const m={};
+  ratings.forEach((r,i)=>{
+    const w=Math.pow(0.85,ratings.length-1-i);
+    if(!m[r.src])m[r.src]={ws:0,wt:0,n:0,last:null};
+    m[r.src].ws+=r.score*w;m[r.src].wt+=w;m[r.src].n++;m[r.src].last=r.date;
+  });
+  return Object.entries(m).map(([src,s])=>({
+    src,label:SOURCE_LABELS[src]??src,avg:s.wt>0?s.ws/s.wt:0,count:s.n,last:s.last,
+  })).sort((a,b)=>b.avg-a.avg);
+};
+
+async function fetchWeather(lat,lon,model){
+  const p=new URLSearchParams({
+    latitude:lat,longitude:lon,models:model,
+    current:'temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weathercode,cloudcover,windspeed_10m,winddirection_10m,windgusts_10m',
+    hourly:'temperature_2m,apparent_temperature,precipitation_probability,precipitation,weathercode,windspeed_10m,cloudcover',
+    daily:'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max,sunrise,sunset',
+    timezone:'Europe/London',forecast_days:3,
+  });
+  const r=await fetch(`/api/weather?${p}`);
+  if(!r.ok)throw new Error(`API error ${r.status}`);
+  const d=await r.json();
+  if(d.error)throw new Error(d.error);
+  return d;
+}
+async function geoSearch(q){
+  const r=await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+  const d=await r.json();
+  return d.results??[];
+}
+function transformWeather(raw,name,model){
+  const c=raw.current;
+  return {
+    location:name,source:model,sourceLabel:SOURCE_LABELS[model]??model,
+    current:{
+      temp:c.temperature_2m,feelsLike:c.apparent_temperature,...wmo(c.weathercode),
+      humidity:c.relative_humidity_2m,wind:c.windspeed_10m,windDir:wdir(c.winddirection_10m),
+      gusts:c.windgusts_10m,cloud:c.cloudcover,precip:c.precipitation??0,
+    },
+    daily:raw.daily.time.slice(0,3).map((d,i)=>({
+      label:i===0?'Today':i===1?'Tomorrow':new Date(d).toLocaleDateString('en-GB',{weekday:'long'}),
+      date:fmtDay(d),...wmo(raw.daily.weathercode[i]),
+      high:raw.daily.temperature_2m_max[i],low:raw.daily.temperature_2m_min[i],
+      precipProb:raw.daily.precipitation_probability_max[i]??0,precipMm:raw.daily.precipitation_sum[i]??0,
+      windMax:raw.daily.windspeed_10m_max[i],sunrise:fmtTime(raw.daily.sunrise[i]),sunset:fmtTime(raw.daily.sunset[i]),
+    })),
+    hourly:raw.hourly.time.slice(0,72).map((t,i)=>({t,i})).filter(({i})=>i%3===0).map(({t,i})=>({
+      time:fmtChart(t),...wmo(raw.hourly.weathercode[i]),
+      temp:raw.hourly.temperature_2m[i],
+      precipProb:raw.hourly.precipitation_probability[i]??0,
+      wind:raw.hourly.windspeed_10m[i],
+    })),
+  };
+}
+
+const CS = {
+  card:{background:'#fff',bo
