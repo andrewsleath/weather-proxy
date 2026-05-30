@@ -131,4 +131,396 @@ function transformWeather(raw,name,model){
 }
 
 const CS = {
-  card:{background:'#fff',bo
+  card:{background:'#fff',border:'1px solid #e2e8f0',borderRadius:16,boxShadow:'0 1px 4px rgba(0,0,0,0.05)'},
+  stat:{background:'#f1f5f9',border:'1px solid #e2e8f0',borderRadius:12,padding:12},
+  mono:{fontFamily:'monospace'},
+  lbl:{fontFamily:'monospace',fontSize:11,textTransform:'uppercase',letterSpacing:'0.1em',color:'#94a3b8'},
+  btn:{background:'#fff',border:'1px solid #e2e8f0',borderRadius:8,padding:'7px 12px',
+       fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.08em',color:'#475569'},
+  tag:(bg,col)=>({background:bg,color:col,fontSize:11,fontFamily:'monospace',padding:'2px 8px',borderRadius:999,letterSpacing:'0.06em',display:'inline-block'}),
+};
+
+function Stat({label,value,unit,sub}){
+  return <div style={CS.stat}>
+    <p style={{...CS.lbl,marginBottom:4}}>{label}</p>
+    <p style={{...CS.mono,fontWeight:600,fontSize:14,color:'#1e293b'}}>
+      {value??'—'}<span style={{fontSize:11,marginLeft:4,color:'#94a3b8'}}>{unit}</span>
+    </p>
+    {sub&&<p style={{...CS.mono,fontSize:11,marginTop:2,color:'#94a3b8'}}>{sub}</p>}
+  </div>;
+}
+
+function DayCard({d,today}){
+  const bg=today?'#1e3a8a':'#fff',bc=today?'#1e40af':'#e2e8f0',mc=today?'#93c5fd':'#94a3b8';
+  return <div style={{background:bg,border:`1px solid ${bc}`,borderRadius:12,padding:14,display:'flex',flexDirection:'column',gap:6}}>
+    <p style={{...CS.lbl,color:mc}}>{d.label}</p>
+    <p style={{...CS.mono,fontSize:11,color:today?'#bfdbfe':'#cbd5e1'}}>{d.date}</p>
+    <div style={{fontSize:32,marginTop:2}}>{d.icon}</div>
+    <p style={{fontSize:13,fontWeight:500,color:today?'#e0f2fe':'#475569'}}>{d.desc}</p>
+    <div style={{display:'flex',alignItems:'baseline',gap:6}}>
+      <span style={{...CS.mono,fontWeight:700,fontSize:18,color:today?'#fff':'#1e293b'}}>{rv(d.high)}°</span>
+      <span style={{...CS.mono,fontSize:13,color:mc}}>{rv(d.low)}°</span>
+    </div>
+    <div style={{...CS.mono,fontSize:11,color:mc,lineHeight:1.6}}>
+      <div>💧 {d.precipProb??0}% · {rv(d.precipMm,1)}mm</div>
+      <div>💨 {rv(d.windMax)} km/h</div>
+      {d.sunrise&&<div>☀️ {d.sunrise} · 🌅 {d.sunset}</div>}
+    </div>
+  </div>;
+}
+
+function HourCard({h}){
+  return <div style={{flexShrink:0,width:70,background:'#fff',border:'1px solid #e2e8f0',borderRadius:12,padding:10,display:'flex',flexDirection:'column',alignItems:'center',gap:3}}>
+    <p style={{...CS.mono,fontSize:10,color:'#94a3b8'}}>{h.time}</p>
+    <p style={{fontSize:22}}>{h.icon}</p>
+    <p style={{...CS.mono,fontWeight:600,fontSize:13,color:'#1e293b'}}>{rv(h.temp)}°</p>
+    <p style={{...CS.mono,fontSize:11,color:'#2563eb'}}>{h.precipProb??0}%</p>
+    <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>{rv(h.wind)}</p>
+  </div>;
+}
+
+function ChartTip({active,payload,label}){
+  if(!active||!payload?.length)return null;
+  return <div style={{background:'#fff',border:'1px solid #e2e8f0',borderRadius:8,padding:10,fontSize:11,boxShadow:'0 2px 8px rgba(0,0,0,0.08)'}}>
+    <p style={{...CS.mono,color:'#94a3b8',marginBottom:4}}>{label}</p>
+    {payload.map((p,i)=><p key={i} style={{...CS.mono,fontWeight:600,color:p.color}}>
+      {p.name}: {typeof p.value==='number'?p.value.toFixed(1):p.value}{p.unit??''}
+    </p>)}
+  </div>;
+}
+
+function StarRating({value,onChange,disabled}){
+  const [hov,setHov]=useState(0);
+  return <div style={{display:'flex',alignItems:'center',gap:4}}>
+    {[1,2,3,4,5].map(n=><button key={n} disabled={disabled}
+      onClick={()=>onChange(n)} onMouseEnter={()=>!disabled&&setHov(n)} onMouseLeave={()=>setHov(0)}
+      style={{fontSize:26,lineHeight:1,border:'none',background:'none',padding:0,cursor:disabled?'default':'pointer',opacity:disabled?0.4:1,
+        filter:(hov?n<=hov:n<=(value??0))?'none':'grayscale(1) opacity(0.25)',transition:'filter .1s'}}>⭐</button>)}
+    {(hov||value)&&<span style={{marginLeft:8,...CS.mono,fontSize:12,color:'#64748b'}}>{STAR_LABELS[hov||value]}</span>}
+  </div>;
+}
+
+function ScoreBar({avg,count,isBest}){
+  const col=avg>=4?'#22c55e':avg>=3?'#f59e0b':'#ef4444';
+  return <div style={{display:'flex',alignItems:'center',gap:10}}>
+    <div style={{flex:1,height:8,background:'#f1f5f9',borderRadius:999}}>
+      <div style={{height:8,background:col,borderRadius:999,width:`${((avg/5)*100).toFixed(0)}%`,transition:'width .5s'}}/>
+    </div>
+    <span style={{...CS.mono,fontSize:11,width:28,textAlign:'right',color:'#475569'}}>{avg.toFixed(1)}</span>
+    <span style={{...CS.mono,fontSize:11,width:54,color:'#94a3b8'}}>{count} rating{count!==1?'s':''}</span>
+    {isBest&&count>=3&&<span style={CS.tag('#dcfce7','#15803d')}>BEST</span>}
+  </div>;
+}
+
+function WeatherDash(){
+  const [loc,setLoc]           = useState(DEFAULT_LOC);
+  const [model,setModel]       = useState('best_match');
+  const [weather,setWeather]   = useState(null);
+  const [loading,setLoading]   = useState(false);
+  const [error,setError]       = useState(null);
+  const [lastFetch,setLF]      = useState(null);
+  const [metric,setMetric]     = useState('temp');
+  const [showSearch,setSS]     = useState(false);
+  const [searchQ,setSearchQ]   = useState('');
+  const [geoRes,setGeoRes]     = useState([]);
+  const [geoLoad,setGL]        = useState(false);
+  const [feedback,setFeedback] = useState(()=>loadFB());
+  const [ratingFor,setRF]      = useState(null);
+  const [justRated,setJR]      = useState(false);
+  const [pendingScore,setPS]   = useState(null);
+  const [showHist,setSH]       = useState(false);
+
+  const scores   = computeScores(feedback.ratings);
+  const topSrc   = scores.find(s=>s.count>=3);
+
+  useEffect(()=>{
+    if(topSrc&&topSrc.count>=3&&MODELS.find(m=>m.id===topSrc.src)){
+      setModel(topSrc.src);
+    }
+  },[topSrc?.src]);
+
+  const doFetch = useCallback(async(targetLoc,mdl)=>{
+    setLoading(true);setError(null);setJR(false);setPS(null);
+    try{
+      const raw=await fetchWeather(targetLoc.lat,targetLoc.lon,mdl);
+      const result=transformWeather(raw,targetLoc.name,mdl);
+      setWeather(result);
+      setLF(new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+      setRF({fid:Date.now(),src:mdl,loc:targetLoc.name,
+        date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+        desc:result.daily?.[0]?.desc??'',hi:result.daily?.[0]?.high,lo:result.daily?.[0]?.low});
+    }catch(e){setError(e.message);}
+    finally{setLoading(false);}
+  },[]);
+
+  useEffect(()=>{doFetch(DEFAULT_LOC,'best_match');},[]);
+
+  const handleModel = m => {setModel(m);doFetch(loc,m);};
+
+  useEffect(()=>{
+    if(!searchQ||searchQ.length<2){setGeoRes([]);return;}
+    const t=setTimeout(()=>{setGL(true);geoSearch(searchQ).then(setGeoRes).catch(()=>setGeoRes([])).finally(()=>setGL(false));},380);
+    return()=>clearTimeout(t);
+  },[searchQ]);
+
+  const pickGeo = r => {
+    const nl={lat:r.latitude,lon:r.longitude,name:[r.name,r.admin1,r.country].filter(Boolean).join(', ')};
+    setLoc(nl);setSS(false);setSearchQ('');setGeoRes([]);doFetch(nl,model);
+  };
+
+  const submitRating = score => {
+    if(!ratingFor)return;
+    const nr={id:ratingFor.fid,ts:Date.now(),score,src:ratingFor.src,loc:ratingFor.loc,date:ratingFor.date,desc:ratingFor.desc};
+    const updated={ratings:[...feedback.ratings,nr]};
+    setFeedback(updated);saveFB(updated);setJR(true);setPS(score);
+  };
+
+  const clearRatings = ()=>{const e={ratings:[]};setFeedback(e);saveFB(e);setSH(false);};
+
+  const cur  = weather?.current;
+  const daily= weather?.daily??[];
+  const hrly = weather?.hourly??[];
+  const am   = METRICS.find(m=>m.id===metric);
+  const chart= hrly.map(h=>({label:h.time,temp:h.temp,precipProb:h.precipProb,wind:h.wind}));
+  const alreadyRated = ratingFor&&feedback.ratings.some(r=>r.id===ratingFor.fid);
+  const today = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  return (
+    <div style={{background:'#f8fafc',minHeight:'100vh',paddingTop:'env(safe-area-inset-top,0px)',paddingBottom:'env(safe-area-inset-bottom,20px)'}}>
+      <div style={{maxWidth:560,margin:'0 auto',padding:'16px 14px 32px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20}}>
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,flexWrap:'wrap'}}>
+              <p style={CS.lbl}>Weather HQ</p>
+              {!loading&&weather&&<span style={CS.tag('#dcfce7','#15803d')}>● LIVE</span>}
+              {loading&&<span style={CS.tag('#eff6ff','#2563eb')}>⟳ LOADING</span>}
+              {topSrc&&topSrc.count>=3&&<span style={CS.tag('#eff6ff','#2563eb')}>🧠 {topSrc.label}</span>}
+            </div>
+            <h1 style={{fontSize:22,fontWeight:700,color:'#0f172a',marginBottom:2}}>{weather?.location??loc.name}</h1>
+            <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>
+              {lastFetch?`Updated ${lastFetch}`:today}
+              {weather?.sourceLabel&&` · ${weather.sourceLabel}`}
+            </p>
+          </div>
+          <div style={{display:'flex',gap:8,marginLeft:12,flexShrink:0}}>
+            <button onClick={()=>doFetch(loc,model)} disabled={loading} style={{...CS.btn,opacity:loading?0.4:1}}>↻</button>
+            <button onClick={()=>{setSS(v=>!v);setSearchQ('');setGeoRes([]);}}
+              style={{...CS.btn,background:showSearch?'#eff6ff':'#fff',borderColor:showSearch?'#93c5fd':'#e2e8f0',color:showSearch?'#2563eb':'#475569'}}>
+              {showSearch?'✕':'📍'}
+            </button>
+          </div>
+        </div>
+        {showSearch&&(
+          <div className="fi" style={{...CS.card,padding:16,marginBottom:16}}>
+            <input autoFocus
+              style={{width:'100%',borderRadius:8,padding:'10px 14px',border:'1px solid #e2e8f0',background:'#f8fafc',color:'#1e293b',outline:'none',fontSize:14}}
+              onFocus={e=>e.target.style.borderColor='#2563eb'}
+              onBlur={e=>e.target.style.borderColor='#e2e8f0'}
+              placeholder="Search city or destination…"
+              value={searchQ} onChange={e=>setSearchQ(e.target.value)}
+            />
+            {geoLoad&&<p style={{...CS.mono,fontSize:11,color:'#94a3b8',marginTop:8}}>SEARCHING…</p>}
+            <div style={{marginTop:4}}>
+              {geoRes.map((r,i)=>(
+                <button key={i} onClick={()=>pickGeo(r)}
+                  style={{display:'block',width:'100%',textAlign:'left',padding:'9px 2px',border:'none',background:'none',
+                    borderBottom:i<geoRes.length-1?'1px solid #f1f5f9':'none',fontSize:14}}>
+                  <span style={{fontWeight:500,color:'#1e293b'}}>{r.name}</span>
+                  {r.admin1&&<span style={{color:'#64748b',marginLeft:8,fontSize:13}}>{r.admin1}</span>}
+                  <span style={{color:'#cbd5e1',marginLeft:8,fontSize:12}}>{r.country}</span>
+                </button>
+              ))}
+            </div>
+            {loc.name!==DEFAULT_LOC.name&&(
+              <button onClick={()=>{setLoc(DEFAULT_LOC);setSS(false);doFetch(DEFAULT_LOC,model);}}
+                style={{...CS.mono,fontSize:11,color:'#2563eb',marginTop:10,border:'none',background:'none',padding:0}}>
+                ↩ Return to Cane End
+              </button>
+            )}
+          </div>
+        )}
+        <div style={{display:'flex',borderRadius:8,overflow:'hidden',border:'1px solid #e2e8f0',marginBottom:16,width:'fit-content'}}>
+          {MODELS.map((m,i)=>(
+            <button key={m.id} onClick={()=>handleModel(m.id)}
+              style={{padding:'7px 11px',fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.07em',
+                border:'none',borderRight:i<MODELS.length-1?'1px solid #e2e8f0':'none',
+                background:model===m.id?'#eff6ff':'#fff',color:model===m.id?'#2563eb':'#94a3b8'}}>
+              {m.label}{topSrc&&topSrc.src===m.id&&topSrc.count>=3?' 🧠':''}
+            </button>
+          ))}
+        </div>
+        {error&&!loading&&(
+          <div style={{marginBottom:16,borderRadius:12,padding:'12px 16px',background:'#fff1f2',border:'1px solid #fecdd3',color:'#be123c',...CS.mono,fontSize:12}}>
+            <p style={{fontWeight:600,marginBottom:4}}>⚠ Error connecting to weather service</p>
+            <p style={{wordBreak:'break-word',marginBottom:8,opacity:.8}}>{error}</p>
+            <button onClick={()=>doFetch(loc,model)} style={{textDecoration:'underline',border:'none',background:'none',color:'#be123c',padding:0,...CS.mono,fontSize:11}}>RETRY</button>
+          </div>
+        )}
+        {loading&&!weather&&(
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'80px 0',gap:16}}>
+            <div style={{width:36,height:36,border:'3px solid #e2e8f0',borderTop:'3px solid #2563eb',borderRadius:'50%',animation:'spin .8s linear infinite'}}/>
+            <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>FETCHING LIVE DATA…</p>
+          </div>
+        )}
+        {weather&&cur&&(
+          <div className="fi">
+            <div style={{...CS.card,padding:20,marginBottom:14}}>
+              <div style={{display:'flex',alignItems:'flex-start',gap:14,marginBottom:18}}>
+                <span style={{fontSize:52}}>{cur.icon}</span>
+                <div style={{flex:1}}>
+                  <div style={{display:'flex',alignItems:'baseline',gap:10,flexWrap:'wrap'}}>
+                    <span style={{fontFamily:'monospace',fontWeight:700,fontSize:46,lineHeight:1,color:'#0f172a'}}>{rv(cur.temp)}°C</span>
+                    <div>
+                      <p style={{fontWeight:600,color:'#334155',marginBottom:2}}>{cur.desc}</p>
+                      <p style={{...CS.mono,fontSize:12,color:'#94a3b8'}}>FEELS {rv(cur.feelsLike)}°C</p>
+                    </div>
+                  </div>
+                </div>
+                {daily[0]?.sunrise&&(
+                  <div style={{textAlign:'right',...CS.mono,fontSize:11,color:'#94a3b8',flexShrink:0}}>
+                    <p>☀️ {daily[0].sunrise}</p>
+                    <p style={{marginTop:2}}>🌅 {daily[0].sunset}</p>
+                  </div>
+                )}
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+                <Stat label="WIND"     value={rv(cur.wind)}     unit="km/h" sub={`${cur.windDir} · GUSTS ${rv(cur.gusts)}`}/>
+                <Stat label="HUMIDITY" value={cur.humidity}     unit="%"/>
+                <Stat label="CLOUD"    value={cur.cloud}        unit="%"/>
+                <Stat label="PRECIP"   value={rv(cur.precip,1)} unit="mm" sub="LAST HOUR"/>
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10,marginBottom:14}}>
+              {daily.map((d,i)=><DayCard key={i} d={d} today={i===0}/>)}
+            </div>
+            {chart.length>1&&(
+              <div style={{...CS.card,padding:20,marginBottom:14}}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+                  <p style={CS.lbl}>72-Hour Trend</p>
+                  <div style={{display:'flex',borderRadius:8,overflow:'hidden',border:'1px solid #e2e8f0'}}>
+                    {METRICS.map((m,i)=>(
+                      <button key={m.id} onClick={()=>setMetric(m.id)}
+                        style={{padding:'5px 10px',fontSize:11,fontFamily:'monospace',textTransform:'uppercase',letterSpacing:'0.07em',
+                          border:'none',borderRight:i<METRICS.length-1?'1px solid #e2e8f0':'none',
+                          background:metric===m.id?'#eff6ff':'#fff',color:metric===m.id?'#2563eb':'#94a3b8'}}>
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <ResponsiveContainer width="100%" height={150}>
+                  <ComposedChart data={chart} margin={{top:5,right:5,left:-30,bottom:0}}>
+                    <CartesianGrid strokeDasharray="2 4" stroke="#f1f5f9" vertical={false}/>
+                    <XAxis dataKey="label" tick={{fill:'#cbd5e1',fontSize:10,fontFamily:'monospace'}} tickLine={false} axisLine={false} interval="preserveStartEnd"/>
+                    <YAxis yAxisId="y" tick={{fill:'#cbd5e1',fontSize:10,fontFamily:'monospace'}} tickLine={false} axisLine={false}
+                      unit={am?.unit??''} domain={metric==='rain'?[0,100]:['auto','auto']}/>
+                    <Tooltip content={<ChartTip/>}/>
+                    {metric==='rain'
+                      ?<Area yAxisId="y" type="monotone" dataKey="precipProb" fill="#bfdbfe" stroke={am.color} strokeWidth={2} dot={{fill:am.color,r:3}} name="Rain Prob" unit="%"/>
+                      :<Line yAxisId="y" type="monotone" dataKey={am?.key} stroke={am?.color} strokeWidth={2.5} dot={{fill:am?.color,r:3}} name={am?.label} unit={am?.unit??''}/>
+                    }
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+            <div style={{...CS.card,padding:20,marginBottom:14}}>
+              <p style={{...CS.lbl,marginBottom:12}}>Hourly · 3hr intervals</p>
+              <div className="nosb" style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4}}>
+                {hrly.map((h,i)=><HourCard key={i} h={h}/>)}
+              </div>
+            </div>
+            <div style={{...CS.card,padding:20,marginBottom:14}}>
+              <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:12}}>
+                <div>
+                  <p style={CS.lbl}>Rate forecast accuracy</p>
+                  <p style={{fontSize:12,color:'#94a3b8',marginTop:4}}>Return after today's weather and score how accurate this was.</p>
+                </div>
+                {ratingFor&&<span style={{...CS.tag('#f1f5f9','#64748b'),flexShrink:0,marginLeft:10}}>{SOURCE_LABELS[ratingFor.src]??ratingFor.src}</span>}
+              </div>
+              {ratingFor&&(
+                <div style={{background:'#f8fafc',border:'1px solid #f1f5f9',borderRadius:10,padding:12,marginBottom:14}}>
+                  <p style={{...CS.mono,fontSize:11,color:'#64748b'}}>📅 {ratingFor.date} · {ratingFor.loc}</p>
+                  <p style={{...CS.mono,fontSize:11,color:'#64748b',marginTop:2}}>Forecast: {ratingFor.desc} · {rv(ratingFor.hi)}° / {rv(ratingFor.lo)}°</p>
+                </div>
+              )}
+              {alreadyRated||justRated
+                ?<div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{display:'flex',gap:2}}>
+                      {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:22,filter:n<=(pendingScore??feedback.ratings.find(r=>r.id===ratingFor?.fid)?.score??0)?'none':'grayscale(1) opacity(0.2)'}}>⭐</span>)}
+                    </div>
+                    <p style={{fontSize:14,fontWeight:500,color:'#15803d'}}>Saved!</p>
+                  </div>
+                :<StarRating value={pendingScore} onChange={submitRating} disabled={!ratingFor||loading}/>
+              }
+            </div>
+            <div style={{...CS.card,padding:20,marginBottom:14}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
+                <div>
+                  <p style={CS.lbl}>Accuracy leaderboard</p>
+                  <p style={{fontSize:12,color:'#94a3b8',marginTop:4}}>Recency-weighted · auto-selects best model at 3+ ratings</p>
+                </div>
+                {feedback.ratings.length>0&&(
+                  <button onClick={()=>setSH(v=>!v)} style={{...CS.mono,fontSize:11,color:'#94a3b8',border:'none',background:'none',padding:0,flexShrink:0,marginLeft:8}}>
+                    {showHist?'HIDE ▲':`HISTORY (${feedback.ratings.length}) ▼`}
+                  </button>
+                )}
+              </div>
+              {scores.length===0
+                ?<div style={{background:'#f8fafc',border:'1px solid #f1f5f9',borderRadius:10,padding:16,textAlign:'center'}}>
+                    <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>No ratings yet. Score a few forecasts to build your accuracy model.</p>
+                  </div>
+                :<div style={{display:'flex',flexDirection:'column',gap:12}}>
+                    {scores.map((sc,i)=>(
+                      <div key={sc.src}>
+                        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+                          <p style={{fontSize:14,fontWeight:500,color:'#334155'}}>{sc.label}</p>
+                          <p style={{...CS.mono,fontSize:11,color:'#94a3b8'}}>Last: {sc.last}</p>
+                        </div>
+                        <ScoreBar avg={sc.avg} count={sc.count} isBest={i===0}/>
+                      </div>
+                    ))}
+                  </div>
+              }
+              {topSrc&&topSrc.count>=3&&(
+                <div style={{marginTop:14,borderRadius:10,padding:'10px 14px',background:'#f0fdf4',border:'1px solid #bbf7d0'}}>
+                  <p style={{...CS.mono,fontSize:11,color:'#15803d'}}>
+                    🧠 LEARNING ACTIVE — Favouring <strong>{topSrc.label}</strong> ({topSrc.avg.toFixed(1)}/5 over {topSrc.count} ratings)
+                  </p>
+                </div>
+              )}
+              {showHist&&feedback.ratings.length>0&&(
+                <div style={{marginTop:14}}>
+                  <div style={{borderRadius:10,overflow:'hidden',border:'1px solid #f1f5f9'}}>
+                    {[...feedback.ratings].reverse().map((r,i)=>(
+                      <div key={r.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',
+                        background:i%2===0?'#f8fafc':'#fff',borderBottom:i<feedback.ratings.length-1?'1px solid #f1f5f9':'none'}}>
+                        <div>
+                          <p style={{...CS.mono,fontSize:11,fontWeight:600,color:'#475569'}}>{r.loc}</p>
+                          <p style={{...CS.mono,fontSize:11,color:'#94a3b8',marginTop:1}}>{r.date} · {SOURCE_LABELS[r.src]??r.src}</p>
+                        </div>
+                        <div style={{display:'flex',gap:1}}>
+                          {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:12,filter:n<=r.score?'none':'grayscale(1) opacity(0.2)'}}>⭐</span>)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={clearRatings} style={{...CS.mono,fontSize:11,color:'#ef4444',marginTop:10,border:'none',background:'none',padding:0}}>Clear all ratings</button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        <p style={{...CS.mono,fontSize:10,color:'#cbd5e1',textAlign:'center',marginTop:8}}>
+          WEATHER HQ · LIVE · ECMWF · MET OFFICE UKV · NOAA GFS
+        </p>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<WeatherDash/>);
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
+
+</script>
+</body>
+</html>
