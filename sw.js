@@ -1,4 +1,4 @@
-const CACHE = 'weather-hq-v1';
+const CACHE = 'weather-hq-v2';
 const PRECACHE = ['/', '/manifest.json', '/icon.svg'];
 
 self.addEventListener('install', e => {
