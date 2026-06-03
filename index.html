@@ -121,7 +121,8 @@ button{cursor:pointer;font-family:inherit}
   </div>
 
   <div class="card hidden" id="search-card">
-    <input class="search-box" id="search-input" placeholder="Search city or destination…" oninput="onSearch(this.value)">
+    <button class="btn" id="geo-btn" onclick="geolocate()" style="width:100%;margin-bottom:12px;padding:11px;text-align:center">📍 USE MY CURRENT LOCATION</button>
+    <input class="search-box" id="search-input" placeholder="Or search a city or destination…" oninput="onSearch(this.value)">
     <p class="sub" id="search-status" style="margin-top:8px;display:none">SEARCHING…</p>
     <div id="geo-results"></div>
     <button class="link-btn" id="reset-btn" style="color:#2563eb;display:none" onclick="resetLoc()">↩ Return to Cane End</button>
@@ -189,8 +190,8 @@ button{cursor:pointer;font-family:inherit}
     <div class="card">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
         <div>
-          <div class="sec-lbl" style="margin-bottom:4px">RATE FORECAST ACCURACY</div>
-          <p style="font-size:12px;color:#94a3b8">Come back after today's weather and score how accurate this was.</p>
+          <div class="sec-lbl" style="margin-bottom:4px">RATE LIVE ACCURACY</div>
+          <p style="font-size:12px;color:#94a3b8">Look outside and rate how well this matches conditions right now.</p>
         </div>
         <span class="tag" style="background:#f1f5f9;color:#64748b;flex-shrink:0;margin-left:10px" id="rate-src"></span>
       </div>
@@ -346,12 +347,11 @@ function render(d,targetLoc,mdl){
   drawChart();
 
   // Rating setup
-  ratingFor={fid:Date.now(),src:mdl,loc:targetLoc.name,
-    date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
-    desc:wmo(d.daily.weathercode[0]).desc,
-    hi:d.daily.temperature_2m_max[0],lo:d.daily.temperature_2m_min[0]};
+ratingFor={fid:Date.now(),src:mdl,loc:targetLoc.name,
+    date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+now,
+    desc:w.desc,temp:c.temperature_2m,wind:c.windspeed_10m};
   el('rate-src').textContent=MODELS[mdl]||mdl;
-  el('rating-snapshot').innerHTML='📅 '+ratingFor.date+' · '+ratingFor.loc+'<br>Forecast: '+ratingFor.desc+' · '+rv(ratingFor.hi)+'° / '+rv(ratingFor.lo)+'°';
+  el('rating-snapshot').innerHTML='🌡️ Now: '+ratingFor.desc+' · '+rv(ratingFor.temp)+'°C · Wind '+rv(ratingFor.wind)+' km/h<br>📍 '+ratingFor.loc+' · '+ratingFor.date;
   show('rating-snapshot');
   renderStars(0);
   hide('saved-row');show('star-area');
@@ -474,7 +474,35 @@ function resetLoc(){
   toggleSearch();
   doFetch(loc,model);
 }
+function geolocate(){
+  if(!navigator.geolocation){alert('Location is not supported by this browser.');return;}
+  el('geo-btn').textContent='📍 LOCATING…';
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      var lat=pos.coords.latitude, lon=pos.coords.longitude;
+      fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=en')
+        .then(function(r){return r.json();})
+        .then(function(d){
+          var name=d.city||d.locality||d.principalSubdivision||'My Location';
+          finishGeo(lat,lon,name);
+        })
+        .catch(function(){finishGeo(lat,lon,'My Location');});
+    },
+    function(err){
+      el('geo-btn').textContent='📍 USE MY CURRENT LOCATION';
+      alert(err.code===1?'Location permission denied. Allow location access for this site in your browser settings, then try again.':'Could not get your location. Try again.');
+    },
+    {enableHighAccuracy:true,timeout:10000,maximumAge:60000}
+  );
+}
 
+function finishGeo(lat,lon,name){
+  el('geo-btn').textContent='📍 USE MY CURRENT LOCATION';
+  loc={lat:lat,lon:lon,name:name};
+  el('reset-btn').style.display='block';
+  toggleSearch();
+  doFetch(loc,model);
+}
 // ── Stars ─────────────────────────────────────────────────────────────────────
 function renderStars(selected){
   var html='';
