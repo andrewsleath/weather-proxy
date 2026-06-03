@@ -437,15 +437,18 @@ function toggleSearch(){
 function onSearch(q){
   clearTimeout(geoTimer);
   el('geo-results').innerHTML='';
-  if(q.length<2){el('search-status').style.display='none';return;}
-  el('search-status').style.display='block';
+  var st=el('search-status');
+  if(q.length<2){st.style.display='none';return;}
+  st.textContent='SEARCHING…';st.style.display='block';
   geoTimer=setTimeout(function(){
-    fetch('/api/geocode?q='+encodeURIComponent(q))
+    fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(q)+'&count=8&language=en')
       .then(function(r){return r.json();})
       .then(function(d){
-        el('search-status').style.display='none';
+        var results=d.results||[];
+        if(!results.length){st.textContent='No matches found';st.style.display='block';return;}
+        st.style.display='none';
         var html='';
-        (d.results||[]).forEach(function(r,i){
+        results.forEach(function(r){
           html+='<button class="geo-result" onclick="pickGeo('+r.latitude+','+r.longitude+',\''+escQ([r.name,r.admin1,r.country].filter(Boolean).join(', '))+'\')">'+
             '<span style="font-weight:500">'+r.name+'</span>'+
             (r.admin1?'<span style="color:#64748b;margin-left:8px;font-size:13px">'+r.admin1+'</span>':'')+
@@ -454,7 +457,7 @@ function onSearch(q){
         });
         el('geo-results').innerHTML=html;
       })
-      .catch(function(){el('search-status').style.display='none';});
+      .catch(function(){st.textContent='Search failed — check connection';st.style.display='block';});
   },380);
 }
 
@@ -476,22 +479,20 @@ function resetLoc(){
 }
 
 function geolocate(){
-  if(!navigator.geolocation){alert('Location is not supported by this browser.');return;}
+  var st=el('search-status');
+  if(!navigator.geolocation){st.textContent='Location not supported by this browser';st.style.display='block';return;}
   el('geo-btn').textContent='📍 LOCATING…';
+  st.textContent='Requesting your location — tap Allow if prompted…';st.style.display='block';
   navigator.geolocation.getCurrentPosition(
     function(pos){
       var lat=pos.coords.latitude, lon=pos.coords.longitude;
-      fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=en')
-        .then(function(r){return r.json();})
-        .then(function(d){
-          var name=d.city||d.locality||d.principalSubdivision||'My Location';
-          finishGeo(lat,lon,name);
-        })
-        .catch(function(){finishGeo(lat,lon,'My Location');});
+      st.style.display='none';
+      finishGeo(lat,lon,'My Location ('+lat.toFixed(3)+', '+lon.toFixed(3)+')');
     },
     function(err){
       el('geo-btn').textContent='📍 USE MY CURRENT LOCATION';
-      alert(err.code===1?'Location permission denied. Allow location access for this site in your browser settings, then try again.':'Could not get your location. Try again.');
+      st.textContent=err.code===1?'Permission denied — enable location for this site in Settings, then retry.':(err.code===3?'Timed out getting location — try again.':'Could not get your location — try again.');
+      st.style.display='block';
     },
     {enableHighAccuracy:true,timeout:10000,maximumAge:60000}
   );
