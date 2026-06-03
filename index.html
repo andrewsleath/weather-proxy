@@ -347,7 +347,7 @@ function render(d,targetLoc,mdl){
   drawChart();
 
   // Rating setup
-ratingFor={fid:Date.now(),src:mdl,loc:targetLoc.name,
+  ratingFor={fid:Date.now(),src:mdl,loc:targetLoc.name,
     date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+now,
     desc:w.desc,temp:c.temperature_2m,wind:c.windspeed_10m};
   el('rate-src').textContent=MODELS[mdl]||mdl;
@@ -474,6 +474,7 @@ function resetLoc(){
   toggleSearch();
   doFetch(loc,model);
 }
+
 function geolocate(){
   if(!navigator.geolocation){alert('Location is not supported by this browser.');return;}
   el('geo-btn').textContent='📍 LOCATING…';
@@ -503,6 +504,7 @@ function finishGeo(lat,lon,name){
   toggleSearch();
   doFetch(loc,model);
 }
+
 // ── Stars ─────────────────────────────────────────────────────────────────────
 function renderStars(selected){
   var html='';
